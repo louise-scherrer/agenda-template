@@ -1,0 +1,6 @@
+todo:
+
+* vérifier si faut mettre la ligne de jour dessus ou dessous (loulou)
+* clean le code parce que faut pas déconner (loulou)
+* dégager texte pour pages vides (martinou + loulou)
+* générer pdf (martinou)
