@@ -59,9 +59,9 @@ body {
   grid-area: jeudi;
   height: 100%;
   border: 1px solid;
-  border-color: purple #E19AF9 purple purple;
-  border-width: 1px 2px 0px 0px;
-  border-style: solid dotted solid solid;
+  border-color: purple rgba(128,0,128,0.6) purple purple;
+  border-width: 1px 1px 0px 0px;
+  border-style: solid dashed solid solid;
   margin: 0px 0px 0 0;
   position: relative;
 }
@@ -160,9 +160,9 @@ body {
   grid-area: vendredi;
   height: 100%;
   /*border: 1px solid purple;*/
-  border-color: purple #E19AF9 purple purple;
-  border-width: 1px 2px 1px 0px;
-  border-style: solid dotted solid solid;
+  border-color: purple rgba(128,0,128,0.6) purple purple;
+  border-width: 1px 1px 1px 0px;
+  border-style: solid dashed solid solid;
   margin: px 0px 0 0;
   position: relative;
 }
