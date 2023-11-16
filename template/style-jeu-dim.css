@@ -67,7 +67,7 @@ body {
 }
 .jeudi span {
   display: block;
-  margin: -15px 45%;
+  margin: -19px 45%;
   font: 20px "myfont", cursive;
   color: purple;
   background-color: white;
@@ -100,7 +100,7 @@ body {
 }
 .boulot span {
   display: block;
-  margin: -15px 44%;
+  margin: -19px 42%;
   font: 20px "myfont", cursive;
   color: purple;
   background-color: white;
@@ -132,7 +132,7 @@ body {
 }
 .priorites span {
   display: block;
-  margin: -15px 30%;
+  margin: -19px 28%;
   font: 20px "myfont", cursive;
   color: purple;
   background-color: white;
