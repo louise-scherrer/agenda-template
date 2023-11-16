@@ -15,7 +15,9 @@ def month_grid(nbdays, d0):
     """
     grid = np.arange(start=1,stop=nbdays+1)  # list of days
     grid = np.concatenate([np.zeros(d0-1),grid])  # add 0s before first days of month for empty cells
-    grid = np.concatenate([grid, np.zeros(7 - grid.shape[0] % 7)])  # add 0s to reach size k*7
+    if grid.shape[0]%7 != 0: # if the month does not finish on a Sunday
+        grid = np.concatenate([grid, np.zeros(7 - grid.shape[0] % 7)])  # add 0s to reach size k*7
+    # if the month finishes on a Sunday, it it already ready to rescale
     grid = grid.reshape((-1,7)).astype(np.int32)  # rescale 1 week per row
 
     return grid
@@ -23,9 +25,9 @@ def month_grid(nbdays, d0):
 
 if __name__ == '__main__':
     ## parameters
-    month_name = 'Novembre'
-    nbdays = 30
-    d0 = 2
+    month_name = 'Décembre'
+    nbdays = 31
+    d0 = 5
 
 
     ## get folder
