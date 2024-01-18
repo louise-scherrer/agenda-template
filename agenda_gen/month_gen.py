@@ -20,9 +20,9 @@ def month_grid(nbdays, d0):
     """
     grid = np.arange(start=1,stop=nbdays+1)  # list of days
     grid = np.concatenate([np.zeros(d0-1),grid])  # add 0s before first days of month for empty cells
-    if grid.shape[0]%7 != 0: # if the month does not finish on a Sunday
+    if grid.shape[0]%7 != 0: # if the month does not finish on a Sunday (else, it is already ready to rescale)
         grid = np.concatenate([grid, np.zeros(7 - grid.shape[0] % 7)])  # add 0s to reach size k*7
-    # if the month finishes on a Sunday, it it already ready to rescale
+
     grid = grid.reshape((-1,7)).astype(np.int32)  # rescale 1 week per row
 
     return grid
@@ -31,9 +31,9 @@ def month_grid(nbdays, d0):
 if __name__ == '__main__':
     ## parameters
     pdf = 1  # 1 for pdf, 0 html
-    month_name = 'Décembre'
-    nbdays = 31
-    d0 = 5
+    month_name = 'Février'
+    nbdays = 29
+    d0 = 4
 
 
     ## get folder
@@ -66,22 +66,13 @@ if __name__ == '__main__':
             html = html.replace('boulot', '')
 
         html = html.replace('WEEK_DATES', week_title)
-        html = html.replace('MON_DATE', 'lun ' + str(week[0])) if week[0] else html.replace('MON_DATE', '')
-        html = html.replace('TUE_DATE', 'mar ' + str(week[1])) if week[1] else html.replace('TUE_DATE', '')
-        html = html.replace('WED_DATE', 'mer ' + str(week[2])) if week[2] else html.replace('WED_DATE', '')
+        html = html.replace('MON_DATE', 'lun ' + str(week[0]) if week[0] else '')
+        html = html.replace('TUE_DATE', 'mar ' + str(week[1]) if week[1] else '')
+        html = html.replace('WED_DATE', 'mer ' + str(week[2]) if week[2] else '')
 
-        if week[0]:
-            css = css.replace('ROW_1', 'lundi boulot')
-        else:
-            css = css.replace('ROW_1', '. .')
-        if week[1]:
-            css = css.replace('ROW_2', 'mardi mar_droite')
-        else:
-            css = css.replace('ROW_2', '. .')
-        if week[2]:
-            css = css.replace('ROW_3', 'mercredi mer_droite')
-        else:
-            css = css.replace('ROW_3', '. .')
+        css = css.replace('MON_ROW', 'lundi boulot' if week[0] else '. .')
+        css = css.replace('TUE_ROW', 'mardi mar_droite' if week[1] else '. .')
+        css = css.replace('WED_ROW', 'mercredi mer_droite' if week[2] else '. .')
 
         with open(os.path.join(output_path, 'lun-mer.html'), 'w') as f:
             f.write(html)
@@ -101,27 +92,15 @@ if __name__ == '__main__':
             html = html.replace('perso', '')
             html = html.replace('boulot', '')
 
-        html = html.replace('THU_DATE', 'Jeu ' + str(week[3])) if week[3] else html.replace('THU_DATE', '')
-        html = html.replace('FRI_DATE', 'ven ' + str(week[4])) if week[4] else html.replace('FRI_DATE', '')
-        html = html.replace('SAT_DATE', 'sam ' + str(week[5])) if week[5] else html.replace('SAT_DATE', '')
-        html = html.replace('SUN_DATE', 'dim ' + str(week[6])) if week[6] else html.replace('SUN_DATE', '')
+        html = html.replace('THU_DATE', 'Jeu ' + str(week[3]) if week[3] else '')
+        html = html.replace('FRI_DATE', 'ven ' + str(week[4]) if week[4] else '')
+        html = html.replace('SAT_DATE', 'sam ' + str(week[5]) if week[5] else '')
+        html = html.replace('SUN_DATE', 'dim ' + str(week[6]) if week[6] else '')
 
-        if week[3]:
-            css = css.replace('ROW_1', 'jeudi boulot')
-        else:
-            css = css.replace('ROW_1', '. .')
-        if week[4]:
-            css = css.replace('ROW_2', 'vendredi ven_droite')
-        else:
-            css = css.replace('ROW_2', '. .')
-        if week[6]:
-            css = css.replace('ROW_3', 'samedi dimanche')
-        elif week[5]:
-            css = css.replace('ROW_3', 'samedi .')
-        elif week[5]:
-            css = css.replace('ROW_3', '. dimanche')
-        else:
-            css = css.replace('ROW_3', '. .')
+        css = css.replace('THU_ROW', 'jeudi boulot' if week[3] else '. .')
+        css = css.replace('FRI_ROW', 'vendredi ven_droite' if week[4] else '. .')
+        css = css.replace('SAT_CELL', 'samedi' if week[5] else '.')
+        css = css.replace('SUN_CELL', 'dimanche' if week[6] else '.')
 
         with open(os.path.join(output_path, 'jeu-dim.html'), 'w') as f:
             f.write(html)
@@ -131,6 +110,7 @@ if __name__ == '__main__':
         html_list.append(os.path.join(output_path, 'jeu-dim.html'))
 
 
+    ## generate pdf from html/css using chromium
     async def get_pdf(html_list):
         browser = await launch(headless=True, executablePath='/usr/bin/chromium-browser')
         pdfs = []
@@ -143,6 +123,8 @@ if __name__ == '__main__':
 
     pdfs = asyncio.get_event_loop().run_until_complete(get_pdf(html_list))
 
+
+    ## write pdf to file
     merger = PdfWriter()
     for pdf in pdfs:
         reader = PdfReader(BytesIO(pdf))

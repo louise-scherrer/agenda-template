@@ -17,7 +17,7 @@ body {
 
 .notebook__inner {
   width: 1000px;
-  height: 1414px;
+  height: 1350px;
   position: relative;
   /* border-radius: 16px;*/
   /*background: linear-gradient(90deg, #fbfae8 15px, transparent 1%) center, linear-gradient(#fbfae8 15px, transparent 1%) center, #ccc;*/
@@ -26,9 +26,9 @@ body {
   display: grid;
   padding: 20px 20px 35px 50px;
   grid-template-areas: ". priorites"
-						"ROW_1"
-						"ROW_2"
-						"ROW_3";
+						"THU_ROW"
+						"FRI_ROW"
+						"SAT_CELL SUN_CELL";
   grid-template-columns: 50% 50%;
   grid-template-rows: 25% 25% 25% 25%;
 }
