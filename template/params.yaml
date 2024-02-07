@@ -1,0 +1,12 @@
+days:
+    mon: 'lun'
+    tue: 'mar'
+    wed: 'mer'
+    thu: 'Jeu'
+    fri: 'ven'
+    sat: 'sam'
+    sun: 'dim'
+headers:
+    left: 'perso'
+    right: 'boulot'
+    box: 'priorités'
