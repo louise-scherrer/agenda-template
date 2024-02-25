@@ -32,7 +32,6 @@ def month_grid(nbdays, d0):
 
 if __name__ == '__main__':
     ## parameters
-    pdf = 1  # 1 for pdf, 0 html
     month_name = 'Mars'
     nbdays = 31
     d0 = 5
@@ -44,30 +43,15 @@ if __name__ == '__main__':
 
     html_list = []
     for week_idx, week in enumerate(month):
-        pages = template.fill(month_name, week, week_idx)
-
-        output_path = os.path.join(AGENDA_OUTPUT_DIR, 'week' + str(week_idx))
-
-        with open(os.path.join(output_path, 'lun-mer.html'), 'w') as f:
-            f.write(pages[0][0])
-        with open(os.path.join(output_path, 'style-lun-mer.css'), 'w') as f:
-            f.write(pages[0][1])
-        with open(os.path.join(output_path, 'jeu-dim.html'), 'w') as f:
-            f.write(pages[1][0])
-        with open(os.path.join(output_path, 'style-jeu-dim.css'), 'w') as f:
-            f.write(pages[1][1])
-
-        html_list.append(os.path.join(output_path, 'lun-mer.html'))
-        html_list.append(os.path.join(output_path, 'jeu-dim.html'))
-
+        html_list += template.fill(month_name, week, week_idx)
 
     ## generate pdf from html/css using chromium
     async def get_pdf(html_list):
         browser = await launch(headless=True, executablePath='/usr/bin/chromium-browser')
         pdfs = []
-        for html_path in html_list:
+        for html in html_list:
             page = await browser.newPage()
-            await page.goto('file://' + html_path)
+            await page.setContent(html)
             pdfs.append(await page.pdf(format='A4'))
         await browser.close()
         return pdfs

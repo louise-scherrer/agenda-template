@@ -1,0 +1,121 @@
+@font-face {
+    font-family: "myfont";
+    src: local("JaneAusten");
+}
+
+* {
+    box-sizing: border-box;
+    font: 20px "myfont";
+    color: purple;
+}
+
+h1 {
+    font-size: 40px;
+}
+
+body {
+    background: rgb(204,204,204);
+}
+
+page {
+    width: 21cm;
+    height: 29.7cm;
+    background: white;
+    display: block;
+    margin: 0 auto;
+}
+
+page[side=left] {
+    padding: 2% 4% 6% 2%;
+}
+
+page[side=right] {
+    padding: 2% 2% 6% 4%;
+}
+
+.grid {
+    width: 100%;
+    height: 100%;
+    display: grid;
+    grid-template-areas:
+        "title box"
+        "cell_11 cell_12"
+        "cell_21 cell_22"
+        "cell_31 cell_32";
+    grid-template-columns: 50% 50%;
+    grid-template-rows: 25% 25% 25% 25%;
+}
+
+.collumn-title {
+    display: table;
+    margin: -8.5% auto 0 auto;
+    padding: 0 2% 0 2%;
+    background-color: white;
+}
+
+.title {
+    grid-area: title;
+    margin: 15% 10%;
+}
+
+.box {
+    grid-area: box;
+    border: 1px solid purple;
+    margin: 2% 3% 7% 0;
+    padding: 3% 0;
+}
+
+.cell_11 {
+    grid-area: cell_11;
+    padding: 3% 3%;
+    border: 1px purple;
+    border-style: solid none solid none;
+}
+
+.cell_12 {
+    grid-area: cell_12;
+    padding: 3% 3%;
+    border: 1px purple;
+    border-style: solid none solid dashed;
+    margin: 0 0 0 0;
+}
+
+.cell_21 {
+    grid-area: cell_21;
+    padding: 3% 3%;
+    border: 1px purple;
+    border-style: solid none solid none;
+    margin: -1px 0 0 0;
+}
+
+.cell_22 {
+    grid-area: cell_22;
+    padding: 3% 3%;
+    border: 1px purple;
+    border-style: solid none solid dashed;
+    margin: -1px 0 0 0;
+}
+
+.cell_31 {
+    grid-area: cell_31;
+    padding: 3% 3%;
+    border: 1px purple;
+    border-style: solid none none none;
+    margin: -1px 0 0 0;
+}
+
+.cell_32 {
+    grid-area: cell_32;
+    padding: 3% 3%;
+    border: 1px purple;
+    border-style: solid none none dashed;
+    margin: -1px 0 0 0;
+}
+
+.cell_32_solidleft {
+    grid-area: cell_32;
+    padding: 3% 3%;
+    border: 1px purple;
+    border-style: solid none none solid;
+    margin: -1px 0 0 0;
+}

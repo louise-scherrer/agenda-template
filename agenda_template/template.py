@@ -2,7 +2,6 @@ import numpy as np
 import os.path
 from agenda_template import AGENDA_TEMPLATE_DIR
 import yaml
-from collections import namedtuple
 
 
 class ClassDict(dict):
@@ -20,12 +19,14 @@ class Template:
         with open(os.path.join(AGENDA_TEMPLATE_DIR, param_file), 'r') as f_params:
             self.params = ClassDict(yaml.load(f_params, Loader=yaml.FullLoader))
 
-        Page = namedtuple('Page', ['html', 'css'])
-        with open(os.path.join(AGENDA_TEMPLATE_DIR,'lun-mer.html'), 'r') as f_html, open(os.path.join(AGENDA_TEMPLATE_DIR,'style-lun-mer.css'), 'r') as f_css:
-            self.left_page = Page(f_html.read(), f_css.read())
+        with open(os.path.join(AGENDA_TEMPLATE_DIR,'agenda.css'), 'r') as f:
+            self.css = f.read()
 
-        with open(os.path.join(AGENDA_TEMPLATE_DIR,'jeu-dim.html'), 'r') as f_html, open(os.path.join(AGENDA_TEMPLATE_DIR,'style-jeu-dim.css'), 'r') as f_css:
-            self.right_page = Page(f_html.read(), f_css.read())
+        with open(os.path.join(AGENDA_TEMPLATE_DIR,'mon-wed.html'), 'r') as f:
+            self.left_page = f.read()
+
+        with open(os.path.join(AGENDA_TEMPLATE_DIR,'thu-sun.html'), 'r') as f:
+            self.right_page = f.read()
 
 
     def fill(self, month_name, week, index):
@@ -36,38 +37,29 @@ class Template:
         week_title = f'{month_name} {date_start} - {date_end}'
 
         ## left page
-        html_l = self.left_page.html
-        css_l = self.left_page.css
+        html_l = self.left_page
 
         html_l = html_l.replace('WEEK_DATES', week_title)
-        if index == 0 and non_zero_days_idx[0] != 0:  # remove col headers if the month is not starting on a Monday
-            html_l = html_l.replace('perso', '')
-            html_l = html_l.replace('boulot', '')
-        html_l = html_l.replace('MON_DATE', f'{self.params.days.mon} {week[0]}' if week[0] else '')
-        html_l = html_l.replace('TUE_DATE', f'{self.params.days.tue} {week[1]}' if week[1] else '')
-        html_l = html_l.replace('WED_DATE', f'{self.params.days.wed} {week[2]}' if week[2] else '')
-
-        css_l = css_l.replace('MON_ROW', 'lundi boulot' if week[0] else '. .')
-        css_l = css_l.replace('TUE_ROW', 'mardi mar_droite' if week[1] else '. .')
-        css_l = css_l.replace('WED_ROW', 'mercredi mer_droite' if week[2] else '. .')
+        html_l = html_l.replace('MON_VIZ', 'display' if week[0] else 'display:none', 2)
+        html_l = html_l.replace('MON_DATE', f'{self.params.days.mon} {week[0]}', 1)
+        html_l = html_l.replace('TUE_VIZ', 'display' if week[1] else 'display:none', 2)
+        html_l = html_l.replace('TUE_DATE', f'{self.params.days.tue} {week[1]}', 1)
+        html_l = html_l.replace('WED_VIZ', 'display' if week[2] else 'display:none', 2)
+        html_l = html_l.replace('WED_DATE', f'{self.params.days.wed} {week[2]}', 1)
+        html_l = html_l.replace('MY_CSS', self.css)
 
 
         ## right page
-        html_r = self.right_page.html
-        css_r = self.right_page.css
+        html_r = self.right_page
 
-        if index == 0 and non_zero_days_idx[0] > 3:  # remove col headers if the month is starting starting after Thursday
-            html_r = html_r.replace('perso', '')
-            html_r = html_r.replace('boulot', '')
+        html_r = html_r.replace('THU_VIZ', 'display' if week[3] else 'display:none', 2)
+        html_r = html_r.replace('THU_DATE', f'{self.params.days.thu} {week[3]}', 1)
+        html_r = html_r.replace('FRI_VIZ', 'display' if week[4] else 'display:none', 2)
+        html_r = html_r.replace('FRI_DATE', f'{self.params.days.fri} {week[4]}', 1)
+        html_r = html_r.replace('SAT_VIZ', 'display' if week[5] else 'display:none', 1)
+        html_r = html_r.replace('SAT_DATE', f'{self.params.days.sat} {week[5]}', 1)
+        html_r = html_r.replace('SUN_VIZ', 'display' if week[6] else 'display:none', 1)
+        html_r = html_r.replace('SUN_DATE', f'{self.params.days.sun} {week[6]}', 1)
+        html_r = html_r.replace('MY_CSS', self.css)
 
-        html_r = html_r.replace('THU_DATE', f'{self.params.days.thu} {week[3]}' if week[3] else '')
-        html_r = html_r.replace('FRI_DATE', f'{self.params.days.fri} {week[4]}' if week[4] else '')
-        html_r = html_r.replace('SAT_DATE', f'{self.params.days.sat} {week[5]}' if week[5] else '')
-        html_r = html_r.replace('SUN_DATE', f'{self.params.days.sun} {week[6]}' if week[6] else '')
-
-        css_r = css_r.replace('THU_ROW', 'jeudi boulot' if week[3] else '. .')
-        css_r = css_r.replace('FRI_ROW', 'vendredi ven_droite' if week[4] else '. .')
-        css_r = css_r.replace('SAT_CELL', 'samedi' if week[5] else '.')
-        css_r = css_r.replace('SUN_CELL', 'dimanche' if week[6] else '.')
-
-        return [(html_l, css_l), (html_r, css_r)]
+        return [html_l, html_r]
