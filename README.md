@@ -18,5 +18,5 @@
 
 ## todos
 
-* remove last page is the month ends before a Thursday
 * finish modularizing and create scripts
+* readme

@@ -52,21 +52,24 @@ class Template:
         html_l = html_l.replace('RIGHT_COL_TITLE', f'{self.params.headers.right_col}', 1)
         html_l = html_l.replace('MY_CSS', self.css)
 
-
         ## right page
-        html_r = self.right_page
+        ## blank if empty
+        if not week[3:].any():
+            html_r = ''
+        else:
+            html_r = self.right_page
 
-        html_r = html_r.replace('THU_VIZ', 'display' if week[3] else 'display:none', 2)
-        html_r = html_r.replace('THU_DATE', f'{self.params.days.thu} {week[3]}', 1)
-        html_r = html_r.replace('FRI_VIZ', 'display' if week[4] else 'display:none', 2)
-        html_r = html_r.replace('FRI_DATE', f'{self.params.days.fri} {week[4]}', 1)
-        html_r = html_r.replace('SAT_VIZ', 'display' if week[5] else 'display:none', 1)
-        html_r = html_r.replace('SAT_DATE', f'{self.params.days.sat} {week[5]}', 1)
-        html_r = html_r.replace('SUN_VIZ', 'display' if week[6] else 'display:none', 1)
-        html_r = html_r.replace('SUN_DATE', f'{self.params.days.sun} {week[6]}', 1)
-        html_r = html_r.replace('BOX_TITLE', f'{self.params.headers.box_right_page}', 1)
-        html_r = html_r.replace('LEFT_COL_TITLE', f'{self.params.headers.left_col}', 1)
-        html_r = html_r.replace('RIGHT_COL_TITLE', f'{self.params.headers.right_col}', 1)
-        html_r = html_r.replace('MY_CSS', self.css)
+            html_r = html_r.replace('THU_VIZ', 'display' if week[3] else 'display:none', 2)
+            html_r = html_r.replace('THU_DATE', f'{self.params.days.thu} {week[3]}', 1)
+            html_r = html_r.replace('FRI_VIZ', 'display' if week[4] else 'display:none', 2)
+            html_r = html_r.replace('FRI_DATE', f'{self.params.days.fri} {week[4]}', 1)
+            html_r = html_r.replace('SAT_VIZ', 'display' if week[5] else 'display:none', 1)
+            html_r = html_r.replace('SAT_DATE', f'{self.params.days.sat} {week[5]}', 1)
+            html_r = html_r.replace('SUN_VIZ', 'display' if week[6] else 'display:none', 1)
+            html_r = html_r.replace('SUN_DATE', f'{self.params.days.sun} {week[6]}', 1)
+            html_r = html_r.replace('BOX_TITLE', f'{self.params.headers.box_right_page}', 1)
+            html_r = html_r.replace('LEFT_COL_TITLE', f'{self.params.headers.left_col}', 1)
+            html_r = html_r.replace('RIGHT_COL_TITLE', f'{self.params.headers.right_col}', 1)
+            html_r = html_r.replace('MY_CSS', self.css)
 
         return [html_l, html_r]
