@@ -33,7 +33,7 @@ def month_grid(nbdays, d0):
 if __name__ == '__main__':
     ## parameters
     month_name = 'Mars'
-    nbdays = 31
+    nbdays = 26
     d0 = 5
 
 
