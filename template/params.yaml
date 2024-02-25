@@ -1,13 +1,34 @@
+## texts
 days:
-    mon: 'lun'
-    tue: 'mar'
-    wed: 'mer'
-    thu: 'Jeu'
-    fri: 'ven'
-    sat: 'sam'
-    sun: 'dim'
+    mon: lun
+    tue: mar
+    wed: mer
+    thu: Jeu
+    fri: ven
+    sat: sam
+    sun: dim
 headers:
-    left_col: 'perso'
-    right_col: 'boulot'
-    box_left_page: 'priorités'
-    box_right_page: 'thèse sur la semaine'
+    left_col: perso
+    right_col: boulot
+    box_left_page: priorités
+    box_right_page: thèse sur la semaine
+
+## css
+font_size:
+    title: 40px
+    body: 20px
+margins:
+    top: 1cm
+    bot: 4cm
+    inner_side: 1cm
+    outer_side: 2cm
+line_size: 1px
+spacing:
+    title:
+        top: 10%
+        left: 0
+    box:
+        top: 2%
+        right: 3%
+        bot: 7%
+        left: 0

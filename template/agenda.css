@@ -5,16 +5,12 @@
 
 * {
     box-sizing: border-box;
-    font: 20px "myfont";
+    font: TEXT_SIZE "myfont";
     color: purple;
 }
 
 h1 {
-    font-size: 40px;
-}
-
-body {
-    background: rgb(204,204,204);
+    font-size: TITLE_SIZE;
 }
 
 page {
@@ -22,15 +18,14 @@ page {
     height: 29.7cm;
     background: white;
     display: block;
-    margin: 0 auto;
 }
 
 page[side=left] {
-    padding: 2% 8% 15% 2%;
+    padding: MARGIN_TOP MARGIN_INNER MARGIN_BOT MARGIN_OUTER;
 }
 
 page[side=right] {
-    padding: 2% 2% 15% 8%;
+    padding: MARGIN_TOP MARGIN_OUTER MARGIN_BOT MARGIN_INNER;
 }
 
 .grid {
@@ -48,34 +43,34 @@ page[side=right] {
 
 .collumn-title {
     display: table;
-    margin: -8.5% auto 0 auto;
+    margin: -9% auto 0 auto;
     padding: 0 2% 0 2%;
     background-color: white;
 }
 
 .title {
     grid-area: title;
-    margin: 15% 10%;
+    margin: SPACE_TITLE_TOP SPACE_TITLE_LEFT;
 }
 
 .box {
     grid-area: box;
-    border: 1px solid purple;
-    margin: 2% 3% 7% 0;
-    padding: 3% 0;
+    padding: 3% 3%;
+    border: LINE_SIZE solid;
+    margin: SPACE_BOX_TOP SPACE_BOX_RIGHT SPACE_BOX_BOT SPACE_BOX_LEFT;
 }
 
 .cell_11 {
     grid-area: cell_11;
     padding: 3% 3%;
-    border: 1px purple;
+    border: LINE_SIZE;
     border-style: solid none solid none;
 }
 
 .cell_12 {
     grid-area: cell_12;
     padding: 3% 3%;
-    border: 1px purple;
+    border: LINE_SIZE;
     border-style: solid none solid dashed;
     margin: 0 0 0 0;
 }
@@ -83,39 +78,39 @@ page[side=right] {
 .cell_21 {
     grid-area: cell_21;
     padding: 3% 3%;
-    border: 1px purple;
+    border: LINE_SIZE;
     border-style: solid none solid none;
-    margin: -1px 0 0 0;
+    margin: -LINE_SIZE 0 0 0;
 }
 
 .cell_22 {
     grid-area: cell_22;
     padding: 3% 3%;
-    border: 1px purple;
+    border: LINE_SIZE;
     border-style: solid none solid dashed;
-    margin: -1px 0 0 0;
+    margin: -LINE_SIZE 0 0 0;
 }
 
 .cell_31 {
     grid-area: cell_31;
     padding: 3% 3%;
-    border: 1px purple;
+    border: LINE_SIZE;
     border-style: solid none none none;
-    margin: -1px 0 0 0;
+    margin: -LINE_SIZE 0 0 0;
 }
 
 .cell_32 {
     grid-area: cell_32;
     padding: 3% 3%;
-    border: 1px purple;
+    border: LINE_SIZE;
     border-style: solid none none dashed;
-    margin: -1px 0 0 0;
+    margin: -LINE_SIZE 0 0 0;
 }
 
 .cell_32_solidleft {
     grid-area: cell_32;
     padding: 3% 3%;
-    border: 1px purple;
+    border: LINE_SIZE;
     border-style: solid none none solid;
-    margin: -1px 0 0 0;
+    margin: -LINE_SIZE 0 0 0;
 }
