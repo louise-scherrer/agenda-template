@@ -1,4 +1,5 @@
 import numpy as np
+import numpy as np
 import os.path
 from agenda_template import AGENDA_TEMPLATE_DIR
 import yaml
@@ -46,6 +47,9 @@ class Template:
         html_l = html_l.replace('TUE_DATE', f'{self.params.days.tue} {week[1]}', 1)
         html_l = html_l.replace('WED_VIZ', 'display' if week[2] else 'display:none', 2)
         html_l = html_l.replace('WED_DATE', f'{self.params.days.wed} {week[2]}', 1)
+        html_l = html_l.replace('BOX_TITLE', f'{self.params.headers.box_left_page}')
+        html_l = html_l.replace('LEFT_COL_TITLE', f'{self.params.headers.left_col}')
+        html_l = html_l.replace('RIGHT_COL_TITLE', f'{self.params.headers.right_col}')
         html_l = html_l.replace('MY_CSS', self.css)
 
 
@@ -60,6 +64,9 @@ class Template:
         html_r = html_r.replace('SAT_DATE', f'{self.params.days.sat} {week[5]}', 1)
         html_r = html_r.replace('SUN_VIZ', 'display' if week[6] else 'display:none', 1)
         html_r = html_r.replace('SUN_DATE', f'{self.params.days.sun} {week[6]}', 1)
+        html_r = html_r.replace('BOX_TITLE', f'{self.params.headers.box_right_page}')
+        html_r = html_r.replace('LEFT_COL_TITLE', f'{self.params.headers.left_col}')
+        html_r = html_r.replace('RIGHT_COL_TITLE', f'{self.params.headers.right_col}')
         html_r = html_r.replace('MY_CSS', self.css)
 
         return [html_l, html_r]
