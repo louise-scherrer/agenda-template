@@ -25,12 +25,12 @@ page {
     margin: 0 auto;
 }
 
-page[side=left] {
-    padding: 2% 4% 6% 2%;
+page     {
+    padding: 2% 8% 15% 2%;
 }
 
 page[side=right] {
-    padding: 2% 2% 6% 4%;
+    padding: 2% 2% 15% 8%;
 }
 
 .grid {
