@@ -18,5 +18,10 @@
 
 ## todos
 
+* margins etc as parameters
+* handle several fonts?
 * finish modularizing and create scripts
 * readme
+* month preview page
+* automatic calendar
+* moons?
