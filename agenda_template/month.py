@@ -3,11 +3,17 @@ import numpy as np
 import calendar
 
 
+MONTHS_DICT = {
+    1: 'jan', 2: 'feb', 3: 'mar', 4: 'apr', 5: 'may', 6: 'jun',
+    7: 'jul', 8: 'aug', 9: 'sep', 10: 'oct', 11: 'nov', 12: 'dec'
+}
+
 
 class Month():
-    def __init__(self, cfg, year, month, name):
+    def __init__(self, cfg, year, month):
+        self.cfg = cfg
         self.d0, self.nb_days = calendar.monthrange(year, month)
-        self.name = name
+        self.name = cfg.months[MONTHS_DICT[month]]
         self.grid = self.gen_grid()
         self.week_template = Week(cfg)
 

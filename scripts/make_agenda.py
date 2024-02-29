@@ -8,7 +8,6 @@ if __name__ == '__main__':
     ## get args
     parser = argparse.ArgumentParser(description='agenda generator')
     parser.add_argument(dest='month', help='index of month (1: jan, 12: dec)', choices=range(1, 13), type=int)
-    parser.add_argument(dest='month_name', help='name of month', type=str)
     parser.add_argument(dest='year', nargs='?', help='year', default=datetime.date.today().year , type=int)
 
     args = parser.parse_args()
@@ -18,7 +17,7 @@ if __name__ == '__main__':
     cfg = utils.load_cfg()
 
     ## get html
-    month_template = Month(cfg, args.year, args.month, args.month_name)
+    month_template = Month(cfg, args.year, args.month)
     htmls = month_template.gen_html()
 
     ## get pdf

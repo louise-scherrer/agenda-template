@@ -18,8 +18,9 @@
 
 ## todos
 
-* handle several fonts?
+* month start on Sunday (remove ugly "Month 1-1")
+* scale down title font if it goes two-liner
 * readme
 * month preview page
-* automatic calendar
 * moons?
+* handle several fonts?
