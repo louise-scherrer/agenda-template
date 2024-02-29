@@ -43,7 +43,7 @@ page[side=right] {
 
 .collumn-title {
     display: table;
-    margin: -9% auto 0 auto;
+    margin: -9% auto -2.3% auto;
     padding: 0 2% 0 2%;
     background-color: white;
 }
