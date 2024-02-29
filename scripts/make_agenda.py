@@ -1,15 +1,15 @@
-import argparse
 from agenda_template import utils
-from agenda_template.week import Week
 from agenda_template.month import Month
+import argparse
+import datetime
 
 
 if __name__ == '__main__':
     ## get args
     parser = argparse.ArgumentParser(description='agenda generator')
-    parser.add_argument(dest='month', help='month name', type=str)
-    parser.add_argument(dest='d0', help='index of first day of month in week (0: monday, 6: sunday)', type=int)
-    parser.add_argument(dest='nb_days', help='nb of days in the month (28-31)', type=int)
+    parser.add_argument(dest='month', help='index of month (1: jan, 12: dec)', choices=range(1, 13), type=int)
+    parser.add_argument(dest='month_name', help='name of month', type=str)
+    parser.add_argument(dest='year', nargs='?', help='year', default=datetime.date.today().year , type=int)
 
     args = parser.parse_args()
 
@@ -18,8 +18,7 @@ if __name__ == '__main__':
     cfg = utils.load_cfg()
 
     ## get html
-    week_template = Week(cfg)
-    month_template = Month(args.month, args.nb_days, args.d0, week_template)
+    month_template = Month(cfg, args.year, args.month, args.month_name)
     htmls = month_template.gen_html()
 
     ## get pdf
