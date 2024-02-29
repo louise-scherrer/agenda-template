@@ -12,6 +12,7 @@ headers:
     right_col: boulot
     box_left_page: priorités
     box_right_page: thèse sur la semaine
+last_page_empty: True
 
 ## css
 font_size:
