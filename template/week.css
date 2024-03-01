@@ -11,6 +11,8 @@
 
 h1 {
     font-size: TITLE_SIZE;
+    white-space: nowrap;
+    line-height: 1;
 }
 
 page {
@@ -50,7 +52,9 @@ page[side=right] {
 
 .title {
     grid-area: title;
-    margin: SPACE_TITLE_TOP SPACE_TITLE_LEFT;
+    padding: SPACE_TITLE_TOP 20% 0 SPACE_TITLE_LEFT;
+    /* object-fit: scale-down; */
+    text-align:center
 }
 
 .box {
