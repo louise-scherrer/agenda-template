@@ -1,4 +1,5 @@
 from agenda_template import utils
+from agenda_template.week import Week
 from agenda_template.month import Month
 import argparse
 import datetime
@@ -17,7 +18,8 @@ if __name__ == '__main__':
     cfg = utils.load_cfg()
 
     ## get html
-    month_template = Month(cfg, args.year, args.month)
+    week_template = Week(cfg)
+    month_template = Month(cfg, args.year, args.month, week_template)
     htmls = month_template.gen_html()
 
     ## get pdf

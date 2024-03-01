@@ -1,4 +1,3 @@
-from agenda_template.week import Week
 import numpy as np
 import calendar
 
@@ -10,12 +9,12 @@ MONTHS_DICT = {
 
 
 class Month():
-    def __init__(self, cfg, year, month):
+    def __init__(self, cfg, year, month, week_template):
         self.cfg = cfg
         self.d0, self.nb_days = calendar.monthrange(year, month)
         self.name = cfg.months[MONTHS_DICT[month]]
         self.grid = self.gen_grid()
-        self.week_template = Week(cfg)
+        self.week_template = week_template
 
 
     def gen_grid(self):
