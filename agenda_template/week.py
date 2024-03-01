@@ -42,7 +42,10 @@ class Week:
         non_zero_days_idx = np.nonzero(week)[0]
         date_start = week[non_zero_days_idx[0]]
         date_end = week[non_zero_days_idx[-1]]
-        week_title = f'{month_name} {date_start} - {date_end}'
+        if date_start == date_end:
+            week_title = f'{month_name} {date_start}'
+        else:
+            week_title = f'{month_name} {date_start} - {date_end}'
 
         ## left page
         html_l = self.left_page
