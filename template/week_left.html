@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
     <meta charset="UTF-8">
     <style>
@@ -9,31 +9,25 @@
 
 <body>
 <page side="left">
-    <div class="grid">
-        <div class="title">
-            <h1>WEEK_DATES</h1>
-        </div>
-        <div class="box">
-            <span class="collumn-title">BOX_TITLE</span>
-        </div>
-            <div class="cell_11" style="MON_VIZ">
-                <span class="collumn-title">LEFT_COL_TITLE</span>
-                MON_DATE
-            </div>
-            <div class="cell_12" style="MON_VIZ">
-                <span class="collumn-title">RIGHT_COL_TITLE</span>
-            </div>
-            <div class="cell_21" style="TUE_VIZ">
-                TUE_DATE
-            </div>
-            <div class="cell_22" style="TUE_VIZ">
-            </div>
-            <div class="cell_31" style="WED_VIZ">
-                WED_DATE
-            </div>
-            <div class="cell_32" style="WED_VIZ">
-            </div>
-    </div>
+    <week>
+        <dates>
+            WEEK_DATES
+        </dates>
+        <cell type="box">
+            <collumn-title>BOX_TITLE</collumn-title>
+        </cell>
+        <cell type="c11" style="MON_VIZ">
+            <collumn-title>LEFT_COL_TITLE</collumn-title>
+            MON_DATE
+        </cell>
+        <cell type="c12" style="MON_VIZ">
+            <collumn-title>RIGHT_COL_TITLE</collumn-title>
+        </cell>
+        <cell type="c21" style="TUE_VIZ"> TUE_DATE </cell>
+        <cell type="c22" style="TUE_VIZ"></cell>
+        <cell type="c31" style="WED_VIZ"> WED_DATE </cell>
+        <cell type="c32" style="WED_VIZ"></cell>
+    </week>
 </page>
 </body>
 </html>

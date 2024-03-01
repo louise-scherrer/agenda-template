@@ -41,7 +41,7 @@ margins:
 line_size: 1px
 spacing:
     title:
-        top: 10%
+        top: 20%
         left: 0
     box:
         top: 2%
