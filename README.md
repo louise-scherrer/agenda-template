@@ -20,6 +20,6 @@
 
 * scale down title font if it goes two-liner
 * readme
-* month preview page
+* parametrized white pages pattern
 * moons?
 * handle several fonts?

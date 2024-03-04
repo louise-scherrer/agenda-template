@@ -1,5 +1,7 @@
 ## general
 last_page_empty: True
+grid_month: True
+title_month: True
 
 ## texts
 months:
@@ -9,8 +11,8 @@ months:
     apr: Avril
     may: Mai
     jun: Juin
-    jul: Juillet
-    aug: Août
+    jul: Juillet &nbsp&nbsp
+    aug: Août &nbsp&nbsp
     sep: Septembre
     oct: Octobre
     nov: Novembre
@@ -30,21 +32,32 @@ headers:
     box_right_page: thèse sur la semaine
 
 ## css
+line_size: 1px
 font_size:
-    title: 40px
+    week_title: 30px
+    month_title: 50px
     body: 20px
 margins:
     top: 1cm
     bot: 4cm
-    inner_side: 1cm
-    outer_side: 2cm
-line_size: 1px
+    inner_side: 2cm
+    outer_side: 1cm
+month_grid:
+    width: 80%
+    height: 60%
 spacing:
-    title:
+    week_title:
         top: 20%
         left: 0
+    month_title:
+        top: 2cm
     box:
         top: 2%
         right: 3%
         bot: 7%
-        left: 0
+        left: 0%
+    month_grid:
+        top: 1.5cm
+        cell:
+            top: 2%
+            left: 6%
