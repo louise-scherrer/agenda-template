@@ -44,7 +44,7 @@ margins:
     outer_side: 1cm
 month_grid:
     width: 80%
-    height: 60%
+    height: 80%
 spacing:
     week_title:
         top: 20%
