@@ -22,4 +22,4 @@ if __name__ == '__main__':
 
     ## gen and save pdf
     pdfs = utils.html_to_pdf(htmls)
-    utils.write_pdf(pdfs, file_name=f'{args.month}-{args.year}')
+    utils.write_pdf(pdfs, filename=f'{args.month}-{args.year}')

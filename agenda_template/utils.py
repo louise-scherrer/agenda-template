@@ -34,6 +34,7 @@ async def _get_pdf(html_list):
     await browser.close()
     return pdfs
 
+
 def html_to_pdf(html):
     """Convert a list of html pages to a list of pdfs.
     Uses pyppeteer to interact with chromium to interpret the html and
@@ -41,13 +42,15 @@ def html_to_pdf(html):
     return asyncio.get_event_loop().run_until_complete(_get_pdf(html))
 
 
-def write_pdf(pdfs, file_name='agenda.pdf'):
+def write_pdf(pdfs, filename='agenda.pdf'):
     """Write pdf to a file."""
+    if not filename.endswith('.pdf'):
+        filename += '.pdf'
     merger = PdfWriter()
     for pdf in pdfs:
         reader = PdfReader(BytesIO(pdf))
         merger.append(reader)
 
-    output_file = os.path.join(AGENDA_OUTPUT_DIR, file_name)
+    output_file = os.path.join(AGENDA_OUTPUT_DIR, filename)
     with open(output_file, 'wb') as f:
         merger.write(f)
