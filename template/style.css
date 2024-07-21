@@ -118,12 +118,12 @@ month-title {
 }
 
 month {
-    width: MONTH_GRID_WIDTH;
+    border-style: solid solid solid solid;
     height: clamp(0%, MONTH_GRID_HEIGHT, 100% - SPACE_MONTH_TITLE_TOP - MONTH_TITLE_SIZE - SPACE_MONTH_GRID_TOP);
     display: grid;
-    grid-template-rows: repeat(6, auto);
+    grid-template-rows: repeat(NB_WEEKS_MONTH, auto);
     grid-template-columns: repeat(7, auto);
-    margin: SPACE_MONTH_GRID_TOP auto;
+    padding: SPACE_MONTH_GRID_TOP 2cm 0 2cm;
 
     cell {
         border: 1px solid;

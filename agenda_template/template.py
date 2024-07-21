@@ -14,6 +14,7 @@ class Template():
     def __init__(self, cfg, year, month):
         self.cfg = cfg
         self.d0, self.nb_days = calendar.monthrange(year, month)
+        self.nb_weeks = (self.d0 + self.nb_days - 1) // 7 + 1  # number of weeks in month (4, 5, or 6)
         self.month_name = cfg.months[MONTHS_DICT[month]]
         self.year = year
 
@@ -21,10 +22,14 @@ class Template():
         with open(os.path.join(AGENDA_TEMPLATE_DIR, 'style.css'), 'r') as f:
             self.css = f.read()
 
+        ## general params
         self.css = self.css.replace('MY_FONT', f'{self.cfg.font}')
         self.css = self.css.replace('TEXT_SIZE', f'{self.cfg.font_size.body}')
         self.css = self.css.replace('WEEK_TITLE_SIZE', f'{self.cfg.font_size.week_title}')
         self.css = self.css.replace('MONTH_TITLE_SIZE', f'{self.cfg.font_size.month_title}')
+        self.css = self.css.replace('LINE_SIZE', f'{self.cfg.line_size}')
+
+        ## page params
         self.css = self.css.replace('PAGE_WIDTH', f'{self.cfg.page.width}')
         self.css = self.css.replace('PAGE_HEIGHT', f'{self.cfg.page.height}')
         self.css = self.css.replace('PAGE_BORDER_SIZE', f'{"1px" if self.cfg.page.display_borders else 0}')
@@ -32,19 +37,23 @@ class Template():
         self.css = self.css.replace('PAGE_MARGIN_BOT', f'{self.cfg.page.padding.bot}')
         self.css = self.css.replace('PAGE_MARGIN_INNER', f'{self.cfg.page.padding.inner_side}')
         self.css = self.css.replace('PAGE_MARGIN_OUTER', f'{self.cfg.page.padding.outer_side}')
-        self.css = self.css.replace('LINE_SIZE', f'{self.cfg.line_size}')
+
+        ## week page spacing
         self.css = self.css.replace('SPACE_WEEK_TITLE_TOP', f'{self.cfg.spacing.week_title.top}')
         self.css = self.css.replace('SPACE_WEEK_TITLE_LEFT', f'{self.cfg.spacing.week_title.left}')
-        self.css = self.css.replace('SPACE_MONTH_TITLE_TOP', f'{self.cfg.spacing.month_title.top}')
         self.css = self.css.replace('SPACE_BOX_TOP', f'{self.cfg.spacing.box.top}')
         self.css = self.css.replace('SPACE_BOX_RIGHT', f'{self.cfg.spacing.box.right}')
         self.css = self.css.replace('SPACE_BOX_BOT', f'{self.cfg.spacing.box.bot}')
         self.css = self.css.replace('SPACE_BOX_LEFT', f'{self.cfg.spacing.box.left}')
+
+        ## month page spacing
+        self.css = self.css.replace('SPACE_MONTH_TITLE_TOP', f'{self.cfg.spacing.month_title.top}')
         self.css = self.css.replace('SPACE_MONTH_GRID_TOP', f'{self.cfg.spacing.month_grid.top}')
         self.css = self.css.replace('SPACE_MONTH_CELL_TOP', f'{self.cfg.spacing.month_grid.cell.top}')
         self.css = self.css.replace('SPACE_MONTH_CELL_LEFT', f'{self.cfg.spacing.month_grid.cell.left}')
         self.css = self.css.replace('MONTH_GRID_WIDTH', f'{self.cfg.month_grid.width}')
         self.css = self.css.replace('MONTH_GRID_HEIGHT', f'{self.cfg.month_grid.height}')
+        self.css = self.css.replace('NB_WEEKS_MONTH', f'{self.nb_weeks}')
 
         ## load html and insert CSS
         with open(os.path.join(AGENDA_TEMPLATE_DIR,'week_left.html'), 'r') as f:
@@ -77,7 +86,7 @@ class Template():
     def gen_grid(self):
         """Defines an integer grid for the month.
         Each row defines a week, each collumn is a weekday. Cell values are the date for that day, or 0 otherwise.
-        Example: month of 30 days, starting on a tuesday:
+        Example: month of 30 days, starting on a Tuesday:
             [[ 0,  1,  2,  3,  4,  5,  6],
             [ 7,  8,  9, 10, 11, 12, 13],
             [14, 15, 16, 17, 18, 19, 20],
@@ -107,7 +116,13 @@ class Template():
             html = html.replace('YEAR', str(self.year))
 
         if self.cfg.grid_month:
-            for i in range(6):
+            ## handle 4-week month
+            html = html.replace('IGNORE_FIFTH_WEEK', '<!--' if self.nb_weeks < 5 else '', 1)
+            html = html.replace('END_IGNORE_FIFTH_WEEK', '-->' if self.nb_weeks < 5 else '')
+            ## handle 5-week month
+            html = html.replace('IGNORE_SIXTH_WEEK', '<!--' if self.nb_weeks < 6 else '', 1)
+            html = html.replace('END_IGNORE_SIXTH_WEEK', '-->' if self.nb_weeks < 6 else '')
+            for i in range(self.nb_weeks):
                 for j in range(7):
                     try:
                         date = grid[i,j]
