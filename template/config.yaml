@@ -33,6 +33,7 @@ headers:
 
 ## css
 line_size: 1px
+font: JaneAusten
 font_size:
     week_title: 30px
     month_title: 50px

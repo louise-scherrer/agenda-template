@@ -21,6 +21,7 @@ class Template():
         with open(os.path.join(AGENDA_TEMPLATE_DIR, 'style.css'), 'r') as f:
             self.css = f.read()
 
+        self.css = self.css.replace('MY_FONT', f'{self.cfg.font}')
         self.css = self.css.replace('TEXT_SIZE', f'{self.cfg.font_size.body}')
         self.css = self.css.replace('WEEK_TITLE_SIZE', f'{self.cfg.font_size.week_title}')
         self.css = self.css.replace('MONTH_TITLE_SIZE', f'{self.cfg.font_size.month_title}')

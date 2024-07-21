@@ -1,6 +1,6 @@
 @font-face {
     font-family: "myfont";
-    src: local("JaneAusten");
+    src: local("MY_FONT");
 }
 
 * {
