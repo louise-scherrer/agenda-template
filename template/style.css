@@ -9,19 +9,27 @@
     color: purple;
 }
 
+body {
+    margin: 0;
+    width: 210mm;
+    height: 297mm;
+}
+
 page {
-    width: 21cm;
-    height: 29.7cm;
+    width: PAGE_WIDTH;
+    height: PAGE_HEIGHT;
     background: white;
     display: block;
+    border: PAGE_BORDER_SIZE;
+    border-style: none solid solid none;
 }
 
 page[side=left] {
-    padding: MARGIN_TOP MARGIN_INNER MARGIN_BOT MARGIN_OUTER;
+    padding: PAGE_MARGIN_TOP PAGE_MARGIN_INNER PAGE_MARGIN_BOT PAGE_MARGIN_OUTER;
 }
 
 page[side=right] {
-    padding: MARGIN_TOP MARGIN_OUTER MARGIN_BOT MARGIN_INNER;
+    padding: PAGE_MARGIN_TOP PAGE_MARGIN_OUTER PAGE_MARGIN_BOT PAGE_MARGIN_INNER;
 }
 
 week {
