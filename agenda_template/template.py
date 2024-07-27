@@ -27,6 +27,7 @@ class Template():
         self.css = self.css.replace('TEXT_SIZE', f'{self.cfg.font_size.body}')
         self.css = self.css.replace('WEEK_TITLE_SIZE', f'{self.cfg.font_size.week_title}')
         self.css = self.css.replace('MONTH_TITLE_SIZE', f'{self.cfg.font_size.month_title}')
+        self.css = self.css.replace('MONTH_GRID_SIZE', f'{self.cfg.font_size.month_grid}')
         self.css = self.css.replace('LINE_SIZE', f'{self.cfg.line_size}')
 
         ## page params

@@ -37,11 +37,12 @@ font: JaneAusten
 font_size:
     week_title: 30px
     month_title: 50px
-    body: 20px
+    month_grid: 15px
+    body: 17px
 page:
-    width: 100%
-    height: 100%
-    display_borders: False
+    width: 165mm
+    height: 215mm
+    display_borders: True
     padding:
         top: 1cm
         bot: 0.5cm
@@ -64,5 +65,5 @@ spacing:
     month_grid:
         top: 1.5cm
         cell:
-            top: 2%
-            left: 6%
+            top: 0mm
+            left: 1mm
