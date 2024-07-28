@@ -67,3 +67,6 @@ spacing:
         cell:
             top: 0mm
             left: 1mm
+    week_cell:
+        top: 0mm
+        left: 2mm

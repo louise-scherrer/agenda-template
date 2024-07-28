@@ -42,10 +42,12 @@ class Template():
         ## week page spacing
         self.css = self.css.replace('SPACE_WEEK_TITLE_TOP', f'{self.cfg.spacing.week_title.top}')
         self.css = self.css.replace('SPACE_WEEK_TITLE_LEFT', f'{self.cfg.spacing.week_title.left}')
-        self.css = self.css.replace('SPACE_BOX_TOP', f'{self.cfg.spacing.box.top}')
-        self.css = self.css.replace('SPACE_BOX_RIGHT', f'{self.cfg.spacing.box.right}')
-        self.css = self.css.replace('SPACE_BOX_BOT', f'{self.cfg.spacing.box.bot}')
-        self.css = self.css.replace('SPACE_BOX_LEFT', f'{self.cfg.spacing.box.left}')
+        self.css = self.css.replace('SPACE_WEEK_CELL_TOP', f'{self.cfg.spacing.week_cell.top}')
+        self.css = self.css.replace('SPACE_WEEK_CELL_LEFT', f'{self.cfg.spacing.week_cell.left}')
+        self.css = self.css.replace('SPACE_BOX_CELL_TOP', f'{self.cfg.spacing.box.top}')
+        self.css = self.css.replace('SPACE_BOX_CELL_RIGHT', f'{self.cfg.spacing.box.right}')
+        self.css = self.css.replace('SPACE_BOX_CELL_BOT', f'{self.cfg.spacing.box.bot}')
+        self.css = self.css.replace('SPACE_BOX_CELL_LEFT', f'{self.cfg.spacing.box.left}')
 
         ## month page spacing
         self.css = self.css.replace('SPACE_MONTH_TITLE_TOP', f'{self.cfg.spacing.month_title.top}')

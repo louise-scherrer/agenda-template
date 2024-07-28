@@ -7,6 +7,7 @@
     box-sizing: border-box;
     font: TEXT_SIZE "myfont";
     color: purple;
+    z-index: 0;
 }
 
 body {
@@ -53,20 +54,24 @@ week {
     cell {
         padding: 3% 3%;
         border: LINE_SIZE;
-        margin: 0 0 0 0;
+        margin: 0;
+        padding: SPACE_WEEK_CELL_TOP 0 0 SPACE_WEEK_CELL_LEFT;
     }
 
     cell collumn-title{
         display: table;
-        margin: -9% auto -2.3% auto;
-        padding: 0 2% 0 2%;
+        z-index: 1;
+        margin-left: auto;
+        margin-right: auto;
+        margin-top: calc(-6.5% - SPACE_WEEK_CELL_TOP);
+        margin-bottom: calc(1% + SPACE_WEEK_CELL_TOP - TEXT_SIZE);
         background-color: white;
     }
 
     cell[type=box] {
         grid-area: box;
         border-style: solid;
-        margin: SPACE_BOX_TOP SPACE_BOX_RIGHT SPACE_BOX_BOT SPACE_BOX_LEFT;
+        margin: SPACE_BOX_CELL_TOP SPACE_BOX_CELL_RIGHT SPACE_BOX_CELL_BOT SPACE_BOX_CELL_LEFT;
     }
 
     cell[type=c11] {
