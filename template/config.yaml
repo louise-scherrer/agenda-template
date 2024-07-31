@@ -43,23 +43,24 @@ page:
     width: 165mm
     height: 215mm
     display_borders: False
+    alternate_align: True
     padding:
         top: 0.5cm
         bot: 0.5cm
-        inner_side: 2cm
-        outer_side: 1cm
+        inner_side: 1.3cm
+        outer_side: 0.6cm
 month_grid:
     width: 80%
     height: 80%
 spacing:
     week_title:
         top: 1cm
-        left: 0
+        left: 0.5cm
     month_title:
         top: 2cm
     box:
         top: 1%
-        right: 3%
+        right: 0%
         bot: 7%
         left: 0%
     month_grid:

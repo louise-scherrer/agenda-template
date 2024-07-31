@@ -34,6 +34,8 @@ class Template():
         self.css = self.css.replace('PAGE_WIDTH', f'{self.cfg.page.width}')
         self.css = self.css.replace('PAGE_HEIGHT', f'{self.cfg.page.height}')
         self.css = self.css.replace('PAGE_BORDER_SIZE', f'{"1px" if self.cfg.page.display_borders else 0}')
+        self.css = self.css.replace('PAGE_ALTERNATE_MARGIN', f'{"auto" if self.cfg.page.alternate_align else "none"}')
+        self.css = self.css.replace('PAGE_ALTERNATE_BORDER', f'{"none solid solid" if self.cfg.page.alternate_align else "solid solid none"}')
         self.css = self.css.replace('PAGE_MARGIN_TOP', f'{self.cfg.page.padding.top}')
         self.css = self.css.replace('PAGE_MARGIN_BOT', f'{self.cfg.page.padding.bot}')
         self.css = self.css.replace('PAGE_MARGIN_INNER', f'{self.cfg.page.padding.inner_side}')
