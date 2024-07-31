@@ -7,7 +7,8 @@
     box-sizing: border-box;
     font: TEXT_SIZE "myfont";
     color: purple;
-    z-index: 0;
+    position: relative;
+    border-width: LINE_SIZE;
 }
 
 body {
@@ -55,19 +56,19 @@ week {
     }
 
     cell {
-        border-width: LINE_SIZE;
+        display: flex;
         margin: 0;
         padding: SPACE_WEEK_CELL_TOP 0 0 SPACE_WEEK_CELL_LEFT;
     }
 
     cell collumn-title{
-        display: table;
-        z-index: 1;
-        margin-left: auto;
-        margin-right: auto;
-        margin-top: calc(-6% - SPACE_WEEK_CELL_TOP);
-        margin-bottom: calc(1% + SPACE_WEEK_CELL_TOP - TEXT_SIZE);
+        white-space: nowrap;
+        position: absolute;
+        left: 50%;
+        transform: translate(-50%, 0);
+        margin-top: calc(-TEXT_SIZE - SPACE_WEEK_CELL_TOP + COLLUMN_TITLE_TOP);
         background-color: white;
+        padding: 0 COLLUMN_TITLE_PADDING 0 COLLUMN_TITLE_PADDING;
     }
 
     cell[type=box] {

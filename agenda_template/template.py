@@ -41,7 +41,7 @@ class Template():
         self.css = self.css.replace('PAGE_MARGIN_INNER', f'{self.cfg.page.padding.inner_side}')
         self.css = self.css.replace('PAGE_MARGIN_OUTER', f'{self.cfg.page.padding.outer_side}')
 
-        ## week page spacing
+        ## week page spacing\
         self.css = self.css.replace('SPACE_WEEK_TITLE_TOP', f'{self.cfg.spacing.week_title.top}')
         self.css = self.css.replace('SPACE_WEEK_TITLE_LEFT', f'{self.cfg.spacing.week_title.left}')
         self.css = self.css.replace('SPACE_WEEK_CELL_TOP', f'{self.cfg.spacing.week_cell.top}')
@@ -50,6 +50,8 @@ class Template():
         self.css = self.css.replace('SPACE_BOX_CELL_RIGHT', f'{self.cfg.spacing.box.right}')
         self.css = self.css.replace('SPACE_BOX_CELL_BOT', f'{self.cfg.spacing.box.bot}')
         self.css = self.css.replace('SPACE_BOX_CELL_LEFT', f'{self.cfg.spacing.box.left}')
+        self.css = self.css.replace('COLLUMN_TITLE_PADDING', f'{self.cfg.spacing.collumn_title.padding}')
+        self.css = self.css.replace('COLLUMN_TITLE_TOP', f'{self.cfg.spacing.collumn_title.top}')
 
         ## month page spacing
         self.css = self.css.replace('SPACE_MONTH_TITLE_TOP', f'{self.cfg.spacing.month_title.top}')

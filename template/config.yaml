@@ -53,6 +53,9 @@ month_grid:
     width: 80%
     height: 80%
 spacing:
+    collumn_title:
+        top: 0mm  # is used in a calc so unit is required
+        padding: 0
     week_title:
         top: 1cm
         left: 0.5cm
