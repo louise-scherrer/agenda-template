@@ -52,6 +52,9 @@ class Template():
         ## month page spacing
         self.css = self.css.replace('SPACE_MONTH_TITLE_TOP', f'{self.cfg.spacing.month_title.top}')
         self.css = self.css.replace('SPACE_MONTH_GRID_TOP', f'{self.cfg.spacing.month_grid.top}')
+        self.css = self.css.replace('SPACE_MONTH_GRID_RIGHT', f'{self.cfg.spacing.month_grid.right}')
+        self.css = self.css.replace('SPACE_MONTH_GRID_BOT', f'{self.cfg.spacing.month_grid.bot}')
+        self.css = self.css.replace('SPACE_MONTH_GRID_LEFT', f'{self.cfg.spacing.month_grid.left}')
         self.css = self.css.replace('SPACE_MONTH_CELL_TOP', f'{self.cfg.spacing.month_grid.cell.top}')
         self.css = self.css.replace('SPACE_MONTH_CELL_LEFT', f'{self.cfg.spacing.month_grid.cell.left}')
         self.css = self.css.replace('MONTH_GRID_WIDTH', f'{self.cfg.month_grid.width}')

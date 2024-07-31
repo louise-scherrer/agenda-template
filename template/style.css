@@ -47,12 +47,11 @@ week {
 
     week-title {
         grid-area: title;
-        margin: SPACE_WEEK_TITLE_TOP SPACE_WEEK_TITLE_LEFT;
+        margin: SPACE_WEEK_TITLE_TOP 0 0 SPACE_WEEK_TITLE_LEFT;
         font-size: WEEK_TITLE_SIZE;
     }
 
     cell {
-        padding: 3% 3%;
         border: LINE_SIZE;
         margin: 0;
         padding: SPACE_WEEK_CELL_TOP 0 0 SPACE_WEEK_CELL_LEFT;
@@ -63,7 +62,7 @@ week {
         z-index: 1;
         margin-left: auto;
         margin-right: auto;
-        margin-top: calc(-6.5% - SPACE_WEEK_CELL_TOP);
+        margin-top: calc(-7% - SPACE_WEEK_CELL_TOP);
         margin-bottom: calc(1% + SPACE_WEEK_CELL_TOP - TEXT_SIZE);
         background-color: white;
     }
@@ -123,13 +122,11 @@ month-title {
 }
 
 month {
-    /* border-style: solid solid solid solid; */
     height: clamp(0%, MONTH_GRID_HEIGHT, 100% - SPACE_MONTH_TITLE_TOP - MONTH_TITLE_SIZE - SPACE_MONTH_GRID_TOP);
     display: grid;
     grid-template-rows: repeat(NB_WEEKS_MONTH, auto);
     grid-template-columns: repeat(7, auto);
-    /* padding: SPACE_MONTH_GRID_TOP 2cm 1cm 2cm; */
-    padding: 15mm 0 5mm 0;
+    padding: SPACE_MONTH_GRID_TOP SPACE_MONTH_GRID_RIGHT SPACE_MONTH_GRID_BOT SPACE_MONTH_GRID_LEFT;
 
     cell {
         border: 1px solid;
