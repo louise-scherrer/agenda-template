@@ -1,7 +1,8 @@
 import numpy as np
 import calendar
 import os.path
-from agenda_template import AGENDA_TEMPLATE_DIR
+from agenda_template import AGENDA_TEMPLATE_DIR, AGENDA_RESSOURCES_DIR
+from agenda_template import utils, almanac
 
 
 MONTHS_DICT = {
@@ -41,7 +42,7 @@ class Template():
         self.css = self.css.replace('PAGE_MARGIN_INNER', f'{self.cfg.page.padding.inner_side}')
         self.css = self.css.replace('PAGE_MARGIN_OUTER', f'{self.cfg.page.padding.outer_side}')
 
-        ## week page spacing\
+        ## week page spacing
         self.css = self.css.replace('SPACE_WEEK_TITLE_TOP', f'{self.cfg.spacing.week_title.top}')
         self.css = self.css.replace('SPACE_WEEK_TITLE_LEFT', f'{self.cfg.spacing.week_title.left}')
         self.css = self.css.replace('SPACE_WEEK_CELL_TOP', f'{self.cfg.spacing.week_cell.top}')
@@ -66,18 +67,26 @@ class Template():
         self.css = self.css.replace('NB_WEEKS_MONTH', f'{self.nb_weeks}')
 
         ## load html and insert CSS
-        with open(os.path.join(AGENDA_TEMPLATE_DIR,'week_left.html'), 'r') as f:
+        with open(os.path.join(AGENDA_TEMPLATE_DIR, 'week_left.html'), 'r') as f:
             self.html_week_left = f.read()
 
-        with open(os.path.join(AGENDA_TEMPLATE_DIR,'week_right.html'), 'r') as f:
+        with open(os.path.join(AGENDA_TEMPLATE_DIR, 'week_right.html'), 'r') as f:
             self.html_week_right = f.read()
 
-        with open(os.path.join(AGENDA_TEMPLATE_DIR,'month.html'), 'r') as f:
+        with open(os.path.join(AGENDA_TEMPLATE_DIR, 'month.html'), 'r') as f:
             self.html_month = f.read()
 
         self.html_week_left = self.html_week_left.replace('MY_CSS', self.css)
         self.html_week_right = self.html_week_right.replace('MY_CSS', self.css)
         self.html_month = self.html_month.replace('MY_CSS', self.css)
+
+        ## full moons
+        if self.cfg.add_moons:
+            fullmoon_img = utils.image_base64(os.path.join(AGENDA_RESSOURCES_DIR, 'howling_wolf.png'))
+            self.fullmoon_html = '<img src=data:image/png;base64,BINARY_CHUNKS alt=",">'.replace('BINARY_CHUNKS', fullmoon_img)
+            self.moon_dates = almanac.MoonAlmanac().get_full_moon_month(year, month)
+        else:
+            self.moon_dates = []
 
 
     def gen_html(self):
@@ -164,10 +173,13 @@ class Template():
         html_l = html_l.replace('WEEK_DATES', week_title)
         html_l = html_l.replace('MON_VIZ', 'display' if week[0] else 'display:none')
         html_l = html_l.replace('MON_DATE', f'{self.cfg.days.mon} {week[0]}')
+        html_l = html_l.replace('MON_MOON', self.fullmoon_html if week[0] in self.moon_dates else '')
         html_l = html_l.replace('TUE_VIZ', 'display' if week[1] else 'display:none')
         html_l = html_l.replace('TUE_DATE', f'{self.cfg.days.tue} {week[1]}')
+        html_l = html_l.replace('TUE_MOON', self.fullmoon_html if week[1] in self.moon_dates else '')
         html_l = html_l.replace('WED_VIZ', 'display' if week[2] else 'display:none')
         html_l = html_l.replace('WED_DATE', f'{self.cfg.days.wed} {week[2]}')
+        html_l = html_l.replace('WED_MOON', self.fullmoon_html if week[2] in self.moon_dates else '')
         html_l = html_l.replace('BOX_TITLE', f'{self.cfg.headers.box_left_page}')
         html_l = html_l.replace('LEFT_COL_TITLE', f'{self.cfg.headers.left_col}')
         html_l = html_l.replace('RIGHT_COL_TITLE', f'{self.cfg.headers.right_col}')
@@ -181,12 +193,16 @@ class Template():
 
             html_r = html_r.replace('THU_VIZ', 'display' if week[3] else 'display:none')
             html_r = html_r.replace('THU_DATE', f'{self.cfg.days.thu} {week[3]}')
+            html_r = html_r.replace('THU_MOON', self.fullmoon_html if week[3] in self.moon_dates else '')
             html_r = html_r.replace('FRI_VIZ', 'display' if week[4] else 'display:none')
             html_r = html_r.replace('FRI_DATE', f'{self.cfg.days.fri} {week[4]}')
+            html_r = html_r.replace('FRI_MOON', self.fullmoon_html if week[4] in self.moon_dates else '')
             html_r = html_r.replace('SAT_VIZ', 'display' if week[5] else 'display:none')
             html_r = html_r.replace('SAT_DATE', f'{self.cfg.days.sat} {week[5]}')
+            html_r = html_r.replace('SAT_MOON', self.fullmoon_html if week[5] in self.moon_dates else '')
             html_r = html_r.replace('SUN_VIZ', 'display' if week[6] else 'display:none')
             html_r = html_r.replace('SUN_DATE', f'{self.cfg.days.sun} {week[6]}')
+            html_r = html_r.replace('SUN_MOON', self.fullmoon_html if week[6] in self.moon_dates else '')
             html_r = html_r.replace('BOX_TITLE', f'{self.cfg.headers.box_right_page}')
             html_r = html_r.replace('LEFT_COL_TITLE', f'{self.cfg.headers.left_col}')
             html_r = html_r.replace('RIGHT_COL_TITLE', f'{self.cfg.headers.right_col}')

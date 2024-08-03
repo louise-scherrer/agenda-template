@@ -71,6 +71,14 @@ week {
         padding: 0 COLLUMN_TITLE_PADDING 0 COLLUMN_TITLE_PADDING;
     }
 
+    cell img {
+        margin: auto 0 0 auto;
+        padding: 0.5cm;
+        opacity: 0.5;
+        object-fit: contain;
+        height: 4cm;
+    }
+
     cell[type=box] {
         grid-area: box;
         border-style: solid;

@@ -2,3 +2,4 @@ output/*
 !**.gitkeep
 *.egg-info
 **__pycache__
+**.bsp

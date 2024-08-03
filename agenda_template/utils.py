@@ -5,6 +5,7 @@ from pypdf import PdfWriter, PdfReader
 from io import BytesIO
 import asyncio
 import pyppeteer
+import base64
 
 
 ## config
@@ -64,3 +65,9 @@ def write_pdf(pdfs, filename='agenda.pdf'):
     output_file = os.path.join(AGENDA_OUTPUT_DIR, filename)
     with open(output_file, 'wb') as f:
         merger.write(f)
+
+
+def image_base64(filename):
+    with open(filename, 'rb') as f:
+        enc = base64.b64encode(f.read())
+    return str(enc)[2:-1]

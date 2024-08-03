@@ -2,6 +2,7 @@
 last_page_empty: True
 grid_month: True
 title_month: True
+add_moons: True
 
 ## texts
 months:
