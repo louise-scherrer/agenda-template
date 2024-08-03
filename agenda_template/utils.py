@@ -42,6 +42,16 @@ def html_to_pdf(html):
     return asyncio.get_event_loop().run_until_complete(_get_pdf(html))
 
 
+def write_html(html, filename='agenda.html'):
+    """Write html to a file."""
+    if not filename.endswith('.html'):
+        filename += '.html'
+
+    output_file = os.path.join(AGENDA_OUTPUT_DIR, filename)
+    with open(output_file, 'w') as f:
+        print(html, file=f)
+
+
 def write_pdf(pdfs, filename='agenda.pdf'):
     """Write pdf to a file."""
     if not filename.endswith('.pdf'):
