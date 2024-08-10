@@ -45,6 +45,14 @@ class Template():
         self.css = self.css.replace('PAGE_MARGIN_INNER', f'{self.cfg.page.padding.inner_side}')
         self.css = self.css.replace('PAGE_MARGIN_OUTER', f'{self.cfg.page.padding.outer_side}')
 
+        ## moon params
+        self.css = self.css.replace('MOON_IMG_OPACITY', f'{self.cfg.moon.opacity}')
+        self.css = self.css.replace('MOON_IMG_PADDING', f'{self.cfg.moon.padding}')
+        self.css = self.css.replace('MOON_IMG_SIZE', f'{self.cfg.moon.size}')
+        self.css = self.css.replace('MOON_IMG_ALIGN', '0 0 auto' if self.cfg.moon.align == 'top' \
+                                                    else '0 0 auto' if self.cfg.moon.align == 'bottom' \
+                                                    else '0 0 0')
+
         ## week page spacing
         self.css = self.css.replace('SPACE_WEEK_TITLE_TOP', f'{self.cfg.spacing.week_title.top}')
         self.css = self.css.replace('SPACE_WEEK_TITLE_LEFT', f'{self.cfg.spacing.week_title.left}')
@@ -90,11 +98,11 @@ class Template():
             moon_almanac = almanac.MoonAlmanac()
             dates_new, dates_full = almanac.MoonAlmanac().get_moon_for_month(year, month)
             if self.cfg.moon.new.enable:
-                new_moon_img = utils.image_base64(os.path.join(AGENDA_RESSOURCES_DIR, self.cfg.moon.new.image))
+                new_moon_img = utils.image_base64(os.path.join(AGENDA_RESSOURCES_DIR, self.cfg.moon.new.image), self.cfg.moon.color)
                 self.new_moon_html = '<img src=data:image/png;base64,BINARY_CHUNKS alt=",">'.replace('BINARY_CHUNKS', new_moon_img)
                 self.new_moon_dates = dates_new
             if self.cfg.moon.full.enable:
-                full_moon_img = utils.image_base64(os.path.join(AGENDA_RESSOURCES_DIR, self.cfg.moon.full.image))
+                full_moon_img = utils.image_base64(os.path.join(AGENDA_RESSOURCES_DIR, self.cfg.moon.full.image), self.cfg.moon.color)
                 self.full_moon_html = '<img src=data:image/png;base64,BINARY_CHUNKS alt=",">'.replace('BINARY_CHUNKS', full_moon_img)
                 self.full_moon_dates = dates_full
 

@@ -72,11 +72,11 @@ week {
     }
 
     cell img {
-        margin: 0 0 auto auto ;
-        padding: 3mm;
-        opacity: 1;
         object-fit: contain;
-        height: 1.4cm;
+        margin: MOON_IMG_ALIGN auto;
+        opacity: MOON_IMG_OPACITY;
+        padding: MOON_IMG_PADDING;
+        height: calc(2 * MOON_IMG_PADDING + MOON_IMG_SIZE);
     }
 
     cell[type=box] {

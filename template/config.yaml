@@ -82,6 +82,11 @@ spacing:
 ## moons
 moon:
     enable: True
+    color: 571805
+    opacity: 1
+    align: top  # top or bottom
+    padding: 2mm
+    size: 7.5mm
     full:
         enable: True
         image: howling_wolf.png

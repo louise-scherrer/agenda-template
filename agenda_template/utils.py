@@ -6,6 +6,8 @@ from io import BytesIO
 import asyncio
 import pyppeteer
 import base64
+import cv2
+import webcolors
 
 
 ## config
@@ -24,7 +26,7 @@ def load_cfg(cfg_file=os.path.join(AGENDA_TEMPLATE_DIR, 'config.yaml')):
 
 
 
-## pdf
+## output
 async def _get_pdf(html_list):
     browser = await pyppeteer.launch(headless=True, executablePath='/usr/bin/chromium-browser')
     pdfs = []
@@ -43,16 +45,6 @@ def html_to_pdf(html):
     return asyncio.get_event_loop().run_until_complete(_get_pdf(html))
 
 
-def write_html(html, filename='agenda.html'):
-    """Write html to a file."""
-    if not filename.endswith('.html'):
-        filename += '.html'
-
-    output_file = os.path.join(AGENDA_OUTPUT_DIR, filename)
-    with open(output_file, 'w') as f:
-        print(html, file=f)
-
-
 def write_pdf(pdfs, filename='agenda.pdf'):
     """Write pdf to a file."""
     if not filename.endswith('.pdf'):
@@ -67,7 +59,23 @@ def write_pdf(pdfs, filename='agenda.pdf'):
         merger.write(f)
 
 
-def image_base64(filename):
+## image
+def hex2rgb(hex):
+    return tuple(int(h[i:i+2], 16) for i in (0, 2, 4))
+
+
+def image_base64(filename, color=None):
     with open(filename, 'rb') as f:
-        enc = base64.b64encode(f.read())
+        if color is None:
+            img_str = f.read()
+        else:
+            if type(color) is list:
+                bgr = rgb[::-1]
+            else:
+                c = webcolors.html5_parse_legacy_color(str(color))
+                bgr = [c.blue, c.green, c.red]
+            img = cv2.imread(filename, cv2.IMREAD_UNCHANGED)
+            img[:,:,:3] = bgr
+            img_str = cv2.imencode('.png', img)[1]
+    enc = base64.b64encode(img_str)
     return str(enc)[2:-1]
