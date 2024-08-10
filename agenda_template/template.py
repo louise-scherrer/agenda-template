@@ -25,7 +25,7 @@ class Template():
 
         ## general params
         self.css = self.css.replace('MY_FONT', f'{self.cfg.font}')
-        self.css = self.css.replace('TEXT_SIZE', f'{self.cfg.font_size.body}')
+        self.css = self.css.replace('TEXT_SIZE', f'{self.cfg.font_size.dates}')
         self.css = self.css.replace('WEEK_TITLE_SIZE', f'{self.cfg.font_size.week_title}')
         self.css = self.css.replace('MONTH_TITLE_SIZE', f'{self.cfg.font_size.month_title}')
         self.css = self.css.replace('MONTH_GRID_SIZE', f'{self.cfg.font_size.month_grid}')
@@ -49,6 +49,14 @@ class Template():
         self.css = self.css.replace('MOON_IMG_ALIGN', '0 0 auto' if self.cfg.moon.align == 'top' \
                                                     else '0 0 auto' if self.cfg.moon.align == 'bottom' \
                                                     else '0 0 0')
+
+        ## event params
+        self.css = self.css.replace('EVENT_TEXT_ALIGN', f'{self.cfg.events.align}')
+        self.css = self.css.replace('EVENT_TEXT_OPACITY', f'{self.cfg.events.opacity}')
+        self.css = self.css.replace('EVENT_TEXT_COLOR', f'{self.cfg.events.color}')
+        self.css = self.css.replace('EVENT_TEXT_SIZE', f'{self.cfg.font_size.events}')
+        self.css = self.css.replace('EVENT_PADDING_TOP', f'{self.cfg.events.padding.top}')
+        self.css = self.css.replace('EVENT_PADDING_SIDE', f'{self.cfg.events.padding.sides}')
 
         ## week page spacing
         self.css = self.css.replace('SPACE_WEEK_TITLE_TOP', f'{self.cfg.spacing.week_title.top}')
@@ -93,7 +101,7 @@ class Template():
         self.full_moon_dates = []
         if self.cfg.moon.enable:
             moon_almanac = almanac.MoonAlmanac()
-            dates_new, dates_full = almanac.MoonAlmanac().get_moon_for_month(year, month)
+            dates_new, dates_full = almanac.MoonAlmanac().get_moons_for_month(year, month)
             if self.cfg.moon.new.enable:
                 new_moon_img = utils.image_base64(os.path.join(AGENDA_RESSOURCES_DIR, self.cfg.moon.new.image), self.cfg.moon.color)
                 self.new_moon_html = '<img src=data:image/png;base64,BINARY_CHUNKS alt=",">'.replace('BINARY_CHUNKS', new_moon_img)
@@ -102,6 +110,10 @@ class Template():
                 full_moon_img = utils.image_base64(os.path.join(AGENDA_RESSOURCES_DIR, self.cfg.moon.full.image), self.cfg.moon.color)
                 self.full_moon_html = '<img src=data:image/png;base64,BINARY_CHUNKS alt=",">'.replace('BINARY_CHUNKS', full_moon_img)
                 self.full_moon_dates = dates_full
+
+        ## events
+        if self.cfg.events.enable:
+            self.event_dict = almanac.EventAlmanac(year, self.cfg.events.yaml).get_events_for_month(month)
 
 
     def gen_html(self):
@@ -193,6 +205,7 @@ class Template():
         for i, name in zip([0,1,2], ['MON', 'TUE', 'WED']):
             html_l = html_l.replace(name + '_VIZ', 'display' if week[i] else 'display:none')
             html_l = html_l.replace(name + '_DATE', f'{self.cfg.days[name.lower()]} {week[i]}')
+            html_l = html_l.replace(name + '_EVENT', self.event_dict[week[i]] if week[i] in self.event_dict.keys() else '')
             html_l = html_l.replace(name + '_MOON', self.new_moon_html if week[i] in self.new_moon_dates \
                                                 else self.full_moon_html if week[i] in self.full_moon_dates \
                                                 else '')
@@ -211,6 +224,7 @@ class Template():
             for i, name in zip([3,4,5,6], ['THU', 'FRI', 'SAT', 'SUN']):
                 html_r = html_r.replace(name + '_VIZ', 'display' if week[i] else 'display:none')
                 html_r = html_r.replace(name + '_DATE', f'{self.cfg.days[name.lower()]} {week[i]}')
+                html_r = html_r.replace(name + '_EVENT', self.event_dict[week[i]] if week[i] in self.event_dict.keys() else '')
                 html_r = html_r.replace(name + '_MOON', self.new_moon_html if week[i] in self.new_moon_dates \
                                                     else self.full_moon_html if week[i] in self.full_moon_dates \
                                                     else '')

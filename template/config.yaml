@@ -38,7 +38,8 @@ font_size:
     week_title: 25px
     month_title: 50px
     month_grid: 15px
-    body: 17px
+    dates: 17px
+    events: 15px
 page:
     width: 165mm
     height: 215mm
@@ -82,7 +83,7 @@ spacing:
 ## moons
 moon:
     enable: True
-    color: 571805
+    color: '#571805'
     opacity: 1
     align: top  # top or bottom
     padding: 2mm
@@ -93,3 +94,15 @@ moon:
     new:
         enable: True
         image: sleeping_fox.png
+
+
+## events
+events:
+    enable: True
+    yaml: events.yaml
+    color: '#571805'
+    opacity: 1
+    align: center
+    padding:
+        top: 3mm
+        sides: 10%

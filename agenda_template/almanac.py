@@ -2,9 +2,11 @@ import calendar
 import skyfield.api
 from skyfield.framelib import ecliptic_frame
 from time import localtime
+import holidays
 import shutil
 import os.path
-from agenda_template import AGENDA_RESSOURCES_DIR
+from agenda_template import AGENDA_RESSOURCES_DIR, AGENDA_TEMPLATE_DIR
+import yaml
 
 
 class MoonAlmanac:
@@ -35,9 +37,42 @@ class MoonAlmanac:
         return (mlon.degrees - slon.degrees) % 360.
 
 
-    def get_moon_for_month(self, year, month):
+    def get_moons_for_month(self, year, month):
         _, nb_days = calendar.monthrange(year, month)
         phase_at_date = [self.get_phase_at_date(year, month, d) for d in range(nb_days+1)]
         new_moons = [d for d in range(nb_days) if phase_at_date[d+1] < phase_at_date[d]]
         full_moons = [d for d in range(nb_days) if phase_at_date[d] < 180. < phase_at_date[d+1]]
         return new_moons, full_moons
+
+
+class EventAlmanac:
+    def __init__(self, year, almanac_yaml=None):
+        ## load custom events calendar
+        if almanac_yaml:
+            with open(os.path.join(AGENDA_TEMPLATE_DIR, almanac_yaml), 'r') as f:
+                self.calendar = yaml.load(f, Loader=yaml.FullLoader)
+        else:
+            self.calendar = {}
+
+        ## load holidays for target year
+        holiday_calendar = holidays.country_holidays('FR'.upper(), years=year, language='fr')
+
+        ## merge calendars
+        for k in holiday_calendar.keys():
+            if k.month not in self.calendar.keys():
+                self.calendar[k.month] = {k.day: holiday_calendar[k]}
+            elif k.day not in self.calendar[k.month].keys():
+                self.calendar[k.month][k.day] = holiday_calendar[k]
+            else:
+                self.calendar[k.month][k.day] = holiday_calendar[k] + '<br>' + self.calendar[k.month][k.day]
+
+        ## hard coded substitutions cause I don't like the names
+        self.calendar[5][8] = self.calendar[5][8].replace('Fête de la Victoire', 'Armistice 1945')
+        self.calendar[11][11] = self.calendar[11][11].replace('Armistice', 'Armistice 1918')
+
+
+    def get_events_for_month(self, month):
+        try:
+            return self.calendar[month]
+        except KeyError:
+            return {}

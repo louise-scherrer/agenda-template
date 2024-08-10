@@ -79,6 +79,17 @@ week {
         height: calc(2 * MOON_IMG_PADDING + MOON_IMG_SIZE);
     }
 
+    cell week-event {
+        position: absolute;
+        width: 100%;
+        margin-top: TEXT_SIZE;
+        text-align: EVENT_TEXT_ALIGN;
+        opacity: EVENT_TEXT_OPACITY;
+        color: EVENT_TEXT_COLOR;
+        font-size: EVENT_TEXT_SIZE;
+        padding: EVENT_PADDING_TOP EVENT_PADDING_SIDE;
+    }
+
     cell[type=box] {
         grid-area: box;
         border-style: solid;
