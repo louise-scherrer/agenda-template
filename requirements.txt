@@ -1,0 +1,7 @@
+pyyaml
+pyppeteer
+webcolors
+pypdf
+calendar
+skyfield
+holidays
