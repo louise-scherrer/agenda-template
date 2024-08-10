@@ -19,9 +19,6 @@ class Template():
         self.month_name = cfg.months[MONTHS_DICT[month]]
         self.year = year
 
-        ## day texts
-
-
         ## load css
         with open(os.path.join(AGENDA_TEMPLATE_DIR, 'style.css'), 'r') as f:
             self.css = f.read()
@@ -193,7 +190,7 @@ class Template():
         html_l = html_l.replace('LEFT_COL_TITLE', f'{self.cfg.headers.left_col}')
         html_l = html_l.replace('RIGHT_COL_TITLE', f'{self.cfg.headers.right_col}')
 
-        for i, name in enumerate(['MON', 'TUE', 'WED']):
+        for i, name in zip([0,1,2], ['MON', 'TUE', 'WED']):
             html_l = html_l.replace(name + '_VIZ', 'display' if week[i] else 'display:none')
             html_l = html_l.replace(name + '_DATE', f'{self.cfg.days[name.lower()]} {week[i]}')
             html_l = html_l.replace(name + '_MOON', self.new_moon_html if week[i] in self.new_moon_dates \
@@ -211,8 +208,7 @@ class Template():
             html_r = html_r.replace('LEFT_COL_TITLE', f'{self.cfg.headers.left_col}')
             html_r = html_r.replace('RIGHT_COL_TITLE', f'{self.cfg.headers.right_col}')
 
-            for i, name in enumerate(['THU', 'FRI', 'SAT', 'SUN']):
-                i += 3
+            for i, name in zip([3,4,5,6], ['THU', 'FRI', 'SAT', 'SUN']):
                 html_r = html_r.replace(name + '_VIZ', 'display' if week[i] else 'display:none')
                 html_r = html_r.replace(name + '_DATE', f'{self.cfg.days[name.lower()]} {week[i]}')
                 html_r = html_r.replace(name + '_MOON', self.new_moon_html if week[i] in self.new_moon_dates \

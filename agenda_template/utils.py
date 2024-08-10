@@ -6,7 +6,6 @@ from io import BytesIO
 import asyncio
 import pyppeteer
 import base64
-import cv2
 import webcolors
 
 
@@ -66,16 +65,19 @@ def hex2rgb(hex):
 
 def image_base64(filename, color=None):
     with open(filename, 'rb') as f:
-        if color is None:
-            img_str = f.read()
-        else:
-            if type(color) is list:
-                bgr = rgb[::-1]
-            else:
-                c = webcolors.html5_parse_legacy_color(str(color))
-                bgr = [c.blue, c.green, c.red]
-            img = cv2.imread(filename, cv2.IMREAD_UNCHANGED)
-            img[:,:,:3] = bgr
-            img_str = cv2.imencode('.png', img)[1]
+        img_str = f.read()
+        if color is not None:
+            try:
+                import cv2
+                if type(color) is list:
+                    bgr = rgb[::-1]
+                else:
+                    c = webcolors.html5_parse_legacy_color(str(color))
+                    bgr = [c.blue, c.green, c.red]
+                img = cv2.imread(filename, cv2.IMREAD_UNCHANGED)
+                img[:,:,:3] = bgr
+                img_str = cv2.imencode('.png', img)[1]
+            except ModuleNotFoundError:
+                print('opencv not found, color won\'t be applied to png')
     enc = base64.b64encode(img_str)
     return str(enc)[2:-1]
