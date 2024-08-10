@@ -19,6 +19,9 @@ class Template():
         self.month_name = cfg.months[MONTHS_DICT[month]]
         self.year = year
 
+        ## day texts
+
+
         ## load css
         with open(os.path.join(AGENDA_TEMPLATE_DIR, 'style.css'), 'r') as f:
             self.css = f.read()
@@ -80,13 +83,20 @@ class Template():
         self.html_week_right = self.html_week_right.replace('MY_CSS', self.css)
         self.html_month = self.html_month.replace('MY_CSS', self.css)
 
-        ## full moons
-        if self.cfg.add_moons:
-            fullmoon_img = utils.image_base64(os.path.join(AGENDA_RESSOURCES_DIR, 'howling_wolf.png'))
-            self.fullmoon_html = '<img src=data:image/png;base64,BINARY_CHUNKS alt=",">'.replace('BINARY_CHUNKS', fullmoon_img)
-            self.moon_dates = almanac.MoonAlmanac().get_full_moon_month(year, month)
-        else:
-            self.moon_dates = []
+        ## new and full moons
+        self.new_moon_dates = []
+        self.full_moon_dates = []
+        if self.cfg.moon.enable:
+            moon_almanac = almanac.MoonAlmanac()
+            dates_new, dates_full = almanac.MoonAlmanac().get_moon_for_month(year, month)
+            if self.cfg.moon.new.enable:
+                new_moon_img = utils.image_base64(os.path.join(AGENDA_RESSOURCES_DIR, self.cfg.moon.new.image))
+                self.new_moon_html = '<img src=data:image/png;base64,BINARY_CHUNKS alt=",">'.replace('BINARY_CHUNKS', new_moon_img)
+                self.new_moon_dates = dates_new
+            if self.cfg.moon.full.enable:
+                full_moon_img = utils.image_base64(os.path.join(AGENDA_RESSOURCES_DIR, self.cfg.moon.full.image))
+                self.full_moon_html = '<img src=data:image/png;base64,BINARY_CHUNKS alt=",">'.replace('BINARY_CHUNKS', full_moon_img)
+                self.full_moon_dates = dates_full
 
 
     def gen_html(self):
@@ -94,7 +104,7 @@ class Template():
         :returns: list of html pages
         """
         grid = self.gen_grid()
-        html_list = self.gen_html_title(grid)
+        html_list = self.gen_html_month(grid)
 
         for week in grid:
             html_list += self.gen_html_week(week)
@@ -120,7 +130,7 @@ class Template():
         return grid.reshape((-1,7)).astype(np.int32)  # rescale 1 week per row
 
 
-    def gen_html_title(self, grid):
+    def gen_html_month(self, grid):
         """Create month title/grid page.
         :param grid: month grid, see gen_grid
         :returns: html for title page
@@ -171,18 +181,16 @@ class Template():
         html_l = self.html_week_left
 
         html_l = html_l.replace('WEEK_DATES', week_title)
-        html_l = html_l.replace('MON_VIZ', 'display' if week[0] else 'display:none')
-        html_l = html_l.replace('MON_DATE', f'{self.cfg.days.mon} {week[0]}')
-        html_l = html_l.replace('MON_MOON', self.fullmoon_html if week[0] in self.moon_dates else '')
-        html_l = html_l.replace('TUE_VIZ', 'display' if week[1] else 'display:none')
-        html_l = html_l.replace('TUE_DATE', f'{self.cfg.days.tue} {week[1]}')
-        html_l = html_l.replace('TUE_MOON', self.fullmoon_html if week[1] in self.moon_dates else '')
-        html_l = html_l.replace('WED_VIZ', 'display' if week[2] else 'display:none')
-        html_l = html_l.replace('WED_DATE', f'{self.cfg.days.wed} {week[2]}')
-        html_l = html_l.replace('WED_MOON', self.fullmoon_html if week[2] in self.moon_dates else '')
         html_l = html_l.replace('BOX_TITLE', f'{self.cfg.headers.box_left_page}')
         html_l = html_l.replace('LEFT_COL_TITLE', f'{self.cfg.headers.left_col}')
         html_l = html_l.replace('RIGHT_COL_TITLE', f'{self.cfg.headers.right_col}')
+
+        for i, name in enumerate(['MON', 'TUE', 'WED']):
+            html_l = html_l.replace(name + '_VIZ', 'display' if week[i] else 'display:none')
+            html_l = html_l.replace(name + '_DATE', f'{self.cfg.days[name.lower()]} {week[i]}')
+            html_l = html_l.replace(name + '_MOON', self.new_moon_html if week[i] in self.new_moon_dates \
+                                                else self.full_moon_html if week[i] in self.full_moon_dates \
+                                                else '')
 
         ## right page
         ## blank if empty
@@ -191,20 +199,16 @@ class Template():
         else:
             html_r = self.html_week_right
 
-            html_r = html_r.replace('THU_VIZ', 'display' if week[3] else 'display:none')
-            html_r = html_r.replace('THU_DATE', f'{self.cfg.days.thu} {week[3]}')
-            html_r = html_r.replace('THU_MOON', self.fullmoon_html if week[3] in self.moon_dates else '')
-            html_r = html_r.replace('FRI_VIZ', 'display' if week[4] else 'display:none')
-            html_r = html_r.replace('FRI_DATE', f'{self.cfg.days.fri} {week[4]}')
-            html_r = html_r.replace('FRI_MOON', self.fullmoon_html if week[4] in self.moon_dates else '')
-            html_r = html_r.replace('SAT_VIZ', 'display' if week[5] else 'display:none')
-            html_r = html_r.replace('SAT_DATE', f'{self.cfg.days.sat} {week[5]}')
-            html_r = html_r.replace('SAT_MOON', self.fullmoon_html if week[5] in self.moon_dates else '')
-            html_r = html_r.replace('SUN_VIZ', 'display' if week[6] else 'display:none')
-            html_r = html_r.replace('SUN_DATE', f'{self.cfg.days.sun} {week[6]}')
-            html_r = html_r.replace('SUN_MOON', self.fullmoon_html if week[6] in self.moon_dates else '')
             html_r = html_r.replace('BOX_TITLE', f'{self.cfg.headers.box_right_page}')
             html_r = html_r.replace('LEFT_COL_TITLE', f'{self.cfg.headers.left_col}')
             html_r = html_r.replace('RIGHT_COL_TITLE', f'{self.cfg.headers.right_col}')
+
+            for i, name in enumerate(['THU', 'FRI', 'SAT', 'SUN']):
+                i += 3
+                html_r = html_r.replace(name + '_VIZ', 'display' if week[i] else 'display:none')
+                html_r = html_r.replace(name + '_DATE', f'{self.cfg.days[name.lower()]} {week[i]}')
+                html_r = html_r.replace(name + '_MOON', self.new_moon_html if week[i] in self.new_moon_dates \
+                                                    else self.full_moon_html if week[i] in self.full_moon_dates \
+                                                    else '')
 
         return [html_l, html_r]

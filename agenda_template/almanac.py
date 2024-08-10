@@ -35,9 +35,9 @@ class MoonAlmanac:
         return (mlon.degrees - slon.degrees) % 360.
 
 
-    def get_full_moon_month(self, year, month):
+    def get_moon_for_month(self, year, month):
         _, nb_days = calendar.monthrange(year, month)
         phase_at_date = [self.get_phase_at_date(year, month, d) for d in range(nb_days+1)]
-        # new_moons = [d for d in range(nb_days) if phase_at_date[d+1]) < phase_at_date[d]]
+        new_moons = [d for d in range(nb_days) if phase_at_date[d+1] < phase_at_date[d]]
         full_moons = [d for d in range(nb_days) if phase_at_date[d] < 180. < phase_at_date[d+1]]
-        return full_moons
+        return new_moons, full_moons

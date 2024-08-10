@@ -72,11 +72,11 @@ week {
     }
 
     cell img {
-        margin: auto 0 0 auto;
-        padding: 0.5cm;
-        opacity: 0.5;
+        margin: 0 0 auto auto ;
+        padding: 3mm;
+        opacity: 1;
         object-fit: contain;
-        height: 4cm;
+        height: 1.4cm;
     }
 
     cell[type=box] {

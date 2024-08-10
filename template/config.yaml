@@ -2,7 +2,6 @@
 last_page_empty: True
 grid_month: True
 title_month: True
-add_moons: True
 
 ## texts
 months:
@@ -78,3 +77,14 @@ spacing:
     week_cell:
         top: 0mm
         left: 2mm
+
+
+## moons
+moon:
+    enable: True
+    full:
+        enable: True
+        image: howling_wolf.png
+    new:
+        enable: True
+        image: sleeping_fox.png
