@@ -22,6 +22,14 @@ The python templater itself is a very inefficient series of str.replace() to edi
 While it is all made toward a specific design of agenda, the templates should be easy enough to adapt to a new one with a similar structure (one week per double page).
 Otherwise, it can be used as a starting block to write new templates and enrich the python templater with desired features.
 
+## Examples
+
+Sample output of what this looks like:
+
+<img src="ressources/sample_month.png" alt="month sample" height="500"/>
+<img src="ressources/sample_week.png" alt="month week" height="500"/>
+
 ## todos
 
 * scale down title font if the week titles go two-liners
+* remove hardcoded country/lang for holidays almanac
