@@ -1,5 +1,5 @@
 pyyaml
-pyppeteer
+playwright
 webcolors
 pypdf
 calendar

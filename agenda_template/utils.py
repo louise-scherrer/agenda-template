@@ -4,7 +4,7 @@ import yaml
 from pypdf import PdfWriter, PdfReader
 from io import BytesIO
 import asyncio
-import pyppeteer
+from playwright.async_api import async_playwright
 import base64
 import webcolors
 
@@ -26,22 +26,22 @@ def load_cfg(cfg_file=os.path.join(AGENDA_TEMPLATE_DIR, 'config.yaml')):
 
 
 ## output
-async def _get_pdf(html_list):
-    browser = await pyppeteer.launch(headless=True, executablePath='/usr/bin/chromium-browser')
-    pdfs = []
-    for html in html_list:
-            page = await browser.newPage()
-            await page.setContent(html)
-            pdfs.append(await page.pdf(format='A4'))
-    await browser.close()
-    return pdfs
-
-
-def html_to_pdf(html):
+def html_to_pdf(htmls):
     """Convert a list of html pages to a list of pdfs.
-    Uses pyppeteer to interact with chromium to interpret the html and
+    Uses playwright to interact with chromium to interpret the html and generate the pdf.
     """
-    return asyncio.get_event_loop().run_until_complete(_get_pdf(html))
+    async def _playwright_pdf_gen(htnls):
+        pdfs = []
+        async with async_playwright() as p:
+            browser = await p.chromium.launch(headless=True)
+            page = await browser.new_page()
+            for html in htmls:
+                await page.set_content(html)
+                pdfs.append(await page.pdf(format='A4'))
+            await browser.close()
+        return pdfs
+
+    return asyncio.get_event_loop().run_until_complete(_playwright_pdf_gen(htmls))
 
 
 def write_pdf(pdfs, filename='agenda.pdf'):
