@@ -1,4 +1,4 @@
-from agenda_template import AGENDA_OUTPUT_DIR, AGENDA_TEMPLATE_DIR
+from agenda_template import AGENDA_OUTPUT_DIR, AGENDA_TEMPLATE_DIR, AGENDA_RESOURCES_DIR
 import os
 import yaml
 from pypdf import PdfWriter, PdfReader
@@ -30,9 +30,9 @@ async def _get_pdf(html_list):
     browser = await pyppeteer.launch(headless=True, executablePath='/usr/bin/chromium-browser')
     pdfs = []
     for html in html_list:
-        page = await browser.newPage()
-        await page.setContent(html)
-        pdfs.append(await page.pdf(format='A4'))
+            page = await browser.newPage()
+            await page.setContent(html)
+            pdfs.append(await page.pdf(format='A4'))
     await browser.close()
     return pdfs
 
@@ -58,6 +58,14 @@ def write_pdf(pdfs, filename='agenda.pdf'):
         merger.write(f)
 
 
+def write_html(htmls, filename='agenda'):
+    """Write pdf to a file."""
+    for i, html in enumerate(htmls):
+        output_file = os.path.join(AGENDA_OUTPUT_DIR, filename + f'_{i}.html')
+        with open(output_file, 'w') as f:
+            print(html, file=f)
+
+
 ## image
 def hex2rgb(hex):
     return tuple(int(h[i:i+2], 16) for i in (0, 2, 4))
@@ -81,3 +89,9 @@ def image_base64(filename, color=None):
                 print('opencv not found, color won\'t be applied to png')
     enc = base64.b64encode(img_str)
     return str(enc)[2:-1]
+
+
+def image_html_code(filename, color=None):
+    assert filename.endswith('.png')
+    img_binary = image_base64(os.path.join(AGENDA_RESOURCES_DIR, filename), color)
+    return '<img src=data:image/png;base64,BINARY_CHUNKS alt=",">'.replace('BINARY_CHUNKS', img_binary)

@@ -33,7 +33,9 @@ headers:
 
 ## css
 line_size: 1px
-font: JaneAusten
+font:
+    name: JaneAusten
+    file: jane_austen/JaneAust.ttf
 font_size:
     week_title: 25px
     month_title: 50px
@@ -98,8 +100,15 @@ moon:
 
 ## events
 events:
-    enable: True
-    yaml: events.yaml
+    custom:
+        enable: True
+        yaml: events.yaml
+    holidays:
+        enable: True
+        country: fr
+        use_names: True
+        lang: fr
+        custom_text: Férié
     color: '#571805'
     opacity: 1
     align: center

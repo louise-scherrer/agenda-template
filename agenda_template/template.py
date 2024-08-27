@@ -1,8 +1,8 @@
 import numpy as np
 import calendar
 import os.path
-from agenda_template import AGENDA_TEMPLATE_DIR, AGENDA_RESSOURCES_DIR
-from agenda_template import utils, almanac
+from agenda_template import AGENDA_TEMPLATE_DIR, AGENDA_RESOURCES_DIR
+from agenda_template import utils
 
 
 MONTHS_DICT = {
@@ -12,7 +12,7 @@ MONTHS_DICT = {
 
 
 class Template():
-    def __init__(self, cfg, year, month):
+    def __init__(self, cfg, year, month, moon_almanac, event_almanac):
         self.cfg = cfg
         self.d0, self.nb_days = calendar.monthrange(year, month)
         self.nb_weeks = (self.d0 + self.nb_days - 1) // 7 + 1  # number of weeks in month (4, 5, or 6)
@@ -24,7 +24,8 @@ class Template():
             self.css = f.read()
 
         ## general params
-        self.css = self.css.replace('MY_FONT', f'{self.cfg.font}')
+        self.css = self.css.replace('FONT_NAME', f'{self.cfg.font.name}')
+        self.css = self.css.replace('FONT_URL', f'{os.path.join(AGENDA_RESOURCES_DIR, self.cfg.font.file)}')
         self.css = self.css.replace('TEXT_SIZE', f'{self.cfg.font_size.dates}')
         self.css = self.css.replace('WEEK_TITLE_SIZE', f'{self.cfg.font_size.week_title}')
         self.css = self.css.replace('MONTH_TITLE_SIZE', f'{self.cfg.font_size.month_title}')
@@ -97,23 +98,12 @@ class Template():
         self.html_month = self.html_month.replace('MY_CSS', self.css)
 
         ## new and full moons
-        self.new_moon_dates = []
-        self.full_moon_dates = []
-        if self.cfg.moon.enable:
-            moon_almanac = almanac.MoonAlmanac()
-            dates_new, dates_full = almanac.MoonAlmanac().get_moons_for_month(year, month)
-            if self.cfg.moon.new.enable:
-                new_moon_img = utils.image_base64(os.path.join(AGENDA_RESSOURCES_DIR, self.cfg.moon.new.image), self.cfg.moon.color)
-                self.new_moon_html = '<img src=data:image/png;base64,BINARY_CHUNKS alt=",">'.replace('BINARY_CHUNKS', new_moon_img)
-                self.new_moon_dates = dates_new
-            if self.cfg.moon.full.enable:
-                full_moon_img = utils.image_base64(os.path.join(AGENDA_RESSOURCES_DIR, self.cfg.moon.full.image), self.cfg.moon.color)
-                self.full_moon_html = '<img src=data:image/png;base64,BINARY_CHUNKS alt=",">'.replace('BINARY_CHUNKS', full_moon_img)
-                self.full_moon_dates = dates_full
+        self.new_moon_dates, self.full_moon_dates = moon_almanac.get_moons_for_month(year, month)
+        self.new_moon_html = moon_almanac.img_new
+        self.full_moon_html = moon_almanac.img_full
 
         ## events
-        if self.cfg.events.enable:
-            self.event_dict = almanac.EventAlmanac(year, self.cfg.events.yaml).get_events_for_month(month)
+        self.event_dict = event_almanac.get_events_for_month(month)
 
 
     def gen_html(self):

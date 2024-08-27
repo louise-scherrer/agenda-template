@@ -1,5 +1,6 @@
 from agenda_template import utils
 from agenda_template.template import Template
+from agenda_template import almanac
 import argparse
 import datetime
 
@@ -16,12 +17,16 @@ if __name__ == '__main__':
     ## load default config
     cfg = utils.load_cfg()
 
+    ## almanacs
+    moon_almanac = almanac.MoonAlmanac(cfg)
+    event_almanac = almanac.EventAlmanac(args.year, cfg)
+
     ## get html
     htmls = []
     for i in range(args.nb_months):
         m = (args.month + i - 1) % 12 + 1  # month index, 1-based
         y = args.year if args.month + i < 13 else args.year + 1
-        template = Template(cfg, y, m)
+        template = Template(cfg, y, m, moon_almanac, event_almanac)
         htmls += template.gen_html()
 
     ## gen and save pdf
