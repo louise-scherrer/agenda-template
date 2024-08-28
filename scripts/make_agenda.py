@@ -26,6 +26,8 @@ if __name__ == '__main__':
     for i in range(args.nb_months):
         m = (args.month + i - 1) % 12 + 1  # month index, 1-based
         y = args.year if args.month + i < 13 else args.year + 1
+        if y != event_almanac.year:
+            event_almanac = almanac.EventAlmanac(y, cfg)
         template = Template(cfg, y, m, moon_almanac, event_almanac)
         htmls += template.gen_html()
 

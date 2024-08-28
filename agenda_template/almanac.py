@@ -29,7 +29,7 @@ class MoonAlmanac:
                     exit()
 
         self.img_new = utils.image_html_code(cfg.moon.new.image, cfg.moon.color) if cfg.moon.new.enable else ''
-        self.img_full = utils.image_html_code(cfg.moon.new.image, cfg.moon.color) if cfg.moon.full.enable else ''
+        self.img_full = utils.image_html_code(cfg.moon.full.image, cfg.moon.color) if cfg.moon.full.enable else ''
 
 
     def get_phase_at_date(self, year, month, day):
@@ -57,6 +57,7 @@ class MoonAlmanac:
 
 class EventAlmanac:
     def __init__(self, year, cfg):
+        self.year = year
         self.calendar = {}
 
         ## load custom events calendar
