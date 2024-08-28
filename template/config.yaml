@@ -104,7 +104,7 @@ events:
         enable: True
         yaml: events.yaml
     holidays:
-        enable: True
+        enable: False
         country: fr
         use_names: True
         lang: fr
