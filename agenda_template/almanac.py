@@ -46,10 +46,9 @@ class MoonAlmanac:
     def get_moons_for_month(self, year, month):
         if self.enable:
             _, nb_days = calendar.monthrange(year, month)
-            phase_at_date = [self.get_phase_at_date(year, month, d) for d in range(nb_days+1)]
-            new_moons = [d for d in range(nb_days) if phase_at_date[d+1] < phase_at_date[d]]
-            full_moons = [d for d in range(nb_days) if phase_at_date[d] < 180. < phase_at_date[d+1]]
-            return new_moons, full_moons
+            phase_at_date = [self.get_phase_at_date(year, month, d) for d in range(1,nb_days+2)]
+            new_moons = [d+1 for d in range(nb_days) if phase_at_date[d+1] < phase_at_date[d]]
+            full_moons = [d+1 for d in range(nb_days) if phase_at_date[d] <= 180. < phase_at_date[d+1]]
         else:
             return [], []
 
