@@ -104,10 +104,10 @@ events:
         enable: True
         yaml: events.yaml
     holidays:
-        enable: False
+        enable: True
         country: fr
-        use_names: True
         lang: fr
+        use_custom_text: True
         custom_text: Férié
     color: '#571805'
     opacity: 1

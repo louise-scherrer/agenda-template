@@ -49,6 +49,7 @@ class MoonAlmanac:
             phase_at_date = [self.get_phase_at_date(year, month, d) for d in range(1,nb_days+2)]
             new_moons = [d+1 for d in range(nb_days) if phase_at_date[d+1] < phase_at_date[d]]
             full_moons = [d+1 for d in range(nb_days) if phase_at_date[d] <= 180. < phase_at_date[d+1]]
+            return new_moons, full_moons
         else:
             return [], []
 
@@ -70,7 +71,7 @@ class EventAlmanac:
 
             ## merge calendars
             for k in holiday_calendar.keys():
-                holiday_text = holiday_calendar[k] if cfg.events.holidays.use_names else cfg.events.holidays.custom_text
+                holiday_text = cfg.events.holidays.custom_text if cfg.events.holidays.use_custom_text else holiday_calendar[k]
                 if k.month not in self.calendar.keys():
                     self.calendar[k.month] = {k.day: holiday_text}
                 elif k.day not in self.calendar[k.month].keys():
@@ -78,7 +79,7 @@ class EventAlmanac:
                 else:
                     self.calendar[k.month][k.day] = holiday_text + '<br>' + self.calendar[k.month][k.day]
 
-            if cfg.events.holidays.use_names and cfg.events.holidays.lang == 'fr':
+            if not cfg.events.holidays.use_custom_text and cfg.events.holidays.lang == 'fr':
                 ## hard coded substitutions cause I don't like the names
                 self.calendar[5][8] = self.calendar[5][8].replace('Fête de la Victoire', 'Armistice 1945')
                 self.calendar[11][11] = self.calendar[11][11].replace('Armistice', 'Armistice 1918')
