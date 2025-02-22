@@ -14,9 +14,14 @@ class ClassDict(dict):
     """Makes dict accessible by attribute.
     Taken from https://stackoverflow.com/a/1639632/6494418
     """
-    def __getattr__(self, name):
-        return self[name] if not isinstance(self[name], dict) \
-            else ClassDict(self[name])
+    def __getattr__(self, key):
+        val = self[key]
+        if isinstance(val, dict):
+            return AttrDict(val)
+        elif isinstance(val, list):
+            return [AttrDict(v) if isinstance(v, dict) else v for v in val]
+        else:
+            return val
 
 
 def load_cfg(cfg_file=os.path.join(AGENDA_TEMPLATE_DIR, 'config.yaml')):
