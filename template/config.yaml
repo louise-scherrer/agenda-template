@@ -109,6 +109,7 @@ events:
         lang: fr
         use_custom_text: True
         custom_text: Férié
+        exceptions: [Noël, Lundi de Pâques]
     color: '#571805'
     opacity: 1
     align: center

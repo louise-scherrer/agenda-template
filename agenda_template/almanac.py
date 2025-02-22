@@ -72,6 +72,13 @@ class EventAlmanac:
             ## merge calendars
             for k in holiday_calendar.keys():
                 holiday_text = cfg.events.holidays.custom_text if cfg.events.holidays.use_custom_text else holiday_calendar[k]
+
+                ## apply exceptions to custom text
+                if cfg.events.holidays.use_custom_text:
+                    for ex in cfg.events.holidays.exceptions:
+                        if holiday_calendar[k] == ex: holiday_text = holiday_calendar[k]
+
+                ## merge calendar
                 if k.month not in self.calendar.keys():
                     self.calendar[k.month] = {k.day: holiday_text}
                 elif k.day not in self.calendar[k.month].keys():
@@ -79,8 +86,8 @@ class EventAlmanac:
                 else:
                     self.calendar[k.month][k.day] = holiday_text + '<br>' + self.calendar[k.month][k.day]
 
+            ## hard coded substitutions cause I don't like the names
             if not cfg.events.holidays.use_custom_text and cfg.events.holidays.lang == 'fr':
-                ## hard coded substitutions cause I don't like the names
                 self.calendar[5][8] = self.calendar[5][8].replace('Fête de la Victoire', 'Armistice 1945')
                 self.calendar[11][11] = self.calendar[11][11].replace('Armistice', 'Armistice 1918')
 
