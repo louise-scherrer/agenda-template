@@ -8,6 +8,7 @@ import os.path
 from agenda_template import AGENDA_RESOURCES_DIR, AGENDA_TEMPLATE_DIR
 from agenda_template import utils
 import yaml
+from collections import defaultdict
 
 
 class MoonAlmanac:
@@ -58,7 +59,7 @@ class MoonAlmanac:
 class EventAlmanac:
     def __init__(self, year, cfg):
         self.year = year
-        self.calendar = {}
+        self.calendar = defaultdict(lambda: defaultdict(str))
 
         ## load custom events calendar
         if cfg.events.custom.enable:
@@ -78,13 +79,8 @@ class EventAlmanac:
                     for ex in cfg.events.holidays.exceptions:
                         if holiday_calendar[k] == ex: holiday_text = holiday_calendar[k]
 
-                ## merge calendar
-                if k.month not in self.calendar.keys():
-                    self.calendar[k.month] = {k.day: holiday_text}
-                elif k.day not in self.calendar[k.month].keys():
-                    self.calendar[k.month][k.day] = holiday_text
-                else:
-                    self.calendar[k.month][k.day] = holiday_text + '<br>' + self.calendar[k.month][k.day]
+                ## add to calendar
+                self.calendar[k.month][k.day] = holiday_text + '<br>' + self.calendar[k.month][k.day]
 
             ## hard coded substitutions cause I don't like the names
             if not cfg.events.holidays.use_custom_text and cfg.events.holidays.lang == 'fr':
