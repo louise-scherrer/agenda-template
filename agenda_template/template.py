@@ -111,7 +111,7 @@ class Template():
         :returns: list of html pages
         """
         grid = self.gen_grid()
-        a = self.gen_html_month(grid) + [p for week in grid for p in self.gen_html_week(week)]
+        return self.gen_html_month(grid) + [p for week in grid for p in self.gen_html_week(week)]
 
 
     def gen_grid(self):

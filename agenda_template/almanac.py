@@ -5,7 +5,7 @@ from time import localtime
 import holidays
 import shutil
 import os.path
-from agenda_template import AGENDA_RESOURCES_DIR, AGENDA_TEMPLATE_DIR
+from agenda_template import AGENDA_RESOURCES_DIR, AGENDA_CONFIG_DIR
 from agenda_template import utils
 import yaml
 from collections import defaultdict
@@ -59,11 +59,10 @@ class MoonAlmanac:
 class EventAlmanac:
     def __init__(self, year, cfg):
         self.year = year
-        self.calendar = defaultdict(lambda: defaultdict(str))
 
         ## load custom events calendar
         if cfg.events.custom.enable:
-            with open(os.path.join(AGENDA_TEMPLATE_DIR, cfg.events.custom.yaml), 'r') as f:
+            with open(os.path.join(AGENDA_CONFIG_DIR, cfg.events.custom.yaml), 'r') as f:
                 self.calendar = yaml.load(f, Loader=yaml.FullLoader)
 
         ## load holidays for target year
@@ -80,7 +79,12 @@ class EventAlmanac:
                         if holiday_calendar[k] == ex: holiday_text = holiday_calendar[k]
 
                 ## add to calendar
-                self.calendar[k.month][k.day] = holiday_text + '<br>' + self.calendar[k.month][k.day]
+                if k.month not in self.calendar.keys():
+                    self.calendar[k.month] = {k.day: holiday_text}
+                elif k.day not in self.calendar[k.month].keys():
+                    self.calendar[k.month][k.day] = holiday_text
+                else:
+                    self.calendar[k.month][k.day] = holiday_text + '<br>' + self.calendar[k.month][k.day]
 
             ## hard coded substitutions cause I don't like the names
             if not cfg.events.holidays.use_custom_text and cfg.events.holidays.lang == 'fr':

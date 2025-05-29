@@ -1,4 +1,4 @@
-from agenda_template import AGENDA_OUTPUT_DIR, AGENDA_TEMPLATE_DIR, AGENDA_RESOURCES_DIR
+from agenda_template import AGENDA_OUTPUT_DIR, AGENDA_CONFIG_DIR, AGENDA_RESOURCES_DIR
 import os
 import yaml
 from pypdf import PdfWriter, PdfReader
@@ -10,23 +10,30 @@ import webcolors
 
 
 ## config
-class ClassDict(dict):
-    """Makes dict accessible by attribute.
-    Taken from https://stackoverflow.com/a/1639632/6494418
+class AttrDict(dict):
+    """Makes dict accessible by attributes.
+    Made partly after https://stackoverflow.com/a/1639632/6494418
     """
-    def __getattr__(self, key):
-        val = self[key]
-        if isinstance(val, dict):
-            return AttrDict(val)
-        elif isinstance(val, list):
-            return [AttrDict(v) if isinstance(v, dict) else v for v in val]
+    def __init__(self, dictionary):
+        for key in dictionary:
+            self.__setitem__(key, dictionary[key])
+
+    def __setitem__(self, key, value):
+        if isinstance(value, dict):
+            super(AttrDict, self).__setitem__(key, AttrDict(value))
+        elif isinstance(value, list):
+            super(AttrDict, self).__setitem__(key, [AttrDict(v) if isinstance(v, dict) else v for v in value])
         else:
-            return val
+            super(AttrDict, self).__setitem__(key, value)
+        super(AttrDict, self).__setattr__(key, self[key])
+
+    def __setattr__(self, key, value):
+        self.__setitem__(key, value)
 
 
-def load_cfg(cfg_file=os.path.join(AGENDA_TEMPLATE_DIR, 'config.yaml')):
+def load_cfg(cfg_file=os.path.join(AGENDA_CONFIG_DIR, 'config.yaml')):
     with open(cfg_file, 'r') as f:
-        return ClassDict(yaml.load(f, Loader=yaml.FullLoader))
+        return AttrDict(yaml.load(f, Loader=yaml.FullLoader))
 
 
 
