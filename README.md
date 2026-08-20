@@ -6,8 +6,8 @@
 * Let `playwright` download its chromiun build: `playwright install chromium`
     * it will be stored in `~/.cache/ms-playwright/`
     * it can be removed at any time with `playwright uninstall`
-* Then, install the package locally with `pip install . -e`
-* Run `python3 script/make_agenda.py <target year> <target month> <number of months>`
+* Then, install the package locally with `pip install -e .`
+* Run `python3 scripts/make_agenda.py <target year> <target month> <number of months>`
 
 ## Description
 
