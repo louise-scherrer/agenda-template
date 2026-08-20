@@ -42,7 +42,7 @@ def html_to_pdf(htmls):
     """Convert a list of html pages to a list of pdfs.
     Uses playwright to interact with chromium to interpret the html and generate the pdf.
     """
-    async def _playwright_pdf_gen(htnls):
+    async def _playwright_pdf_gen(htmls):
         pdfs = []
         async with async_playwright() as p:
             browser = await p.chromium.launch(headless=True)
